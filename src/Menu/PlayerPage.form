@@ -32,7 +32,7 @@
                       <Component id="jPasswordField1" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="488" max="32767" attributes="0"/>
+              <EmptySpace pref="573" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
@@ -51,7 +51,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="438" max="-2" attributes="0"/>
                   <Component id="jPanel5" min="-2" pref="54" max="-2" attributes="0"/>
-                  <EmptySpace pref="531" max="32767" attributes="0"/>
+                  <EmptySpace pref="616" max="32767" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -67,13 +67,13 @@
               <Component id="jButton1" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="136" max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="440" max="32767" attributes="0"/>
+              <EmptySpace pref="472" max="32767" attributes="0"/>
           </Group>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="453" max="-2" attributes="0"/>
                   <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="446" max="32767" attributes="0"/>
+                  <EmptySpace pref="478" max="32767" attributes="0"/>
               </Group>
           </Group>
       </Group>

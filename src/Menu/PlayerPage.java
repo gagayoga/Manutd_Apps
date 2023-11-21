@@ -8,12 +8,12 @@ package Menu;
  *
  * @author Asus
  */
-public class DashboardPage extends javax.swing.JPanel {
+public class PlayerPage extends javax.swing.JPanel {
 
     /**
      * Creates new form DashboardPage
      */
-    public DashboardPage() {
+    public PlayerPage() {
         initComponents();
     }
 
@@ -77,7 +77,7 @@ public class DashboardPage extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(128, 128, 128)
                         .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(488, Short.MAX_VALUE))
+                .addContainerGap(573, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -91,7 +91,7 @@ public class DashboardPage extends javax.swing.JPanel {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(438, 438, 438)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(531, Short.MAX_VALUE)))
+                    .addContainerGap(616, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,12 +104,12 @@ public class DashboardPage extends javax.swing.JPanel {
                 .addComponent(jButton1)
                 .addGap(136, 136, 136)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(440, Short.MAX_VALUE))
+                .addContainerGap(472, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(453, 453, 453)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(446, Short.MAX_VALUE)))
+                    .addContainerGap(478, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
