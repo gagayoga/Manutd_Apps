@@ -4,6 +4,8 @@
  */
 package Menu;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Asus
@@ -15,7 +17,65 @@ public class UserPage extends javax.swing.JPanel {
      */
     public UserPage() {
         initComponents();
+        
+        LockInputan();
+        ButtonEnabled();
     }
+    
+    private void LockInputan(){
+        txtkode.setEnabled(false);
+        txtname.setEnabled(false);
+        txtemail.setEnabled(false);
+        txtpassword.setEnabled(false);
+        txttelepon.setEnabled(false);
+        txtrole.setEnabled(false);
+    }
+    
+    private void OpenInputan(){
+        txtkode.setEnabled(true);
+        txtname.setEnabled(true);
+        txtemail.setEnabled(true);
+        txtpassword.setEnabled(true);
+        txttelepon.setEnabled(true);
+        txtrole.setEnabled(true);
+    }
+    
+    private void ClearForm(){
+        txtkode.setEditable(true);
+        txtname.setText(null);
+        txtemail.setText(null);
+        txtpassword.setText(null);
+        txtrole.setSelectedIndex(0);
+        txttelepon.setText(null);
+    }
+    
+    
+    private void ButtonEnabled(){
+        BCreate.setEnabled(true);
+        BUpdate.setEnabled(true);
+        BDelete.setEnabled(true);
+        BCancel.setEnabled(true);
+    }
+    
+    // bagian CRUD
+    
+    private void ShowTable(){
+        
+    }
+     
+    private void CreateQuery(){
+        
+    }
+    
+    private void UpdateQuery(){
+        
+    }
+    
+    private void DeleteQuery(){
+        
+    }
+    
+    // selesai bagian CRUD
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,25 +89,25 @@ public class UserPage extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        txtkode = new javax.swing.JTextField();
+        txtname = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtemail = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        txtpassword = new javax.swing.JTextField();
+        txttelepon = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        txtsearch = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableUser = new javax.swing.JTable();
-        rSMaterialButtonRectangle2 = new rojerusan.RSMaterialButtonRectangle();
-        rSMaterialButtonRectangle6 = new rojerusan.RSMaterialButtonRectangle();
-        rSMaterialButtonRectangle7 = new rojerusan.RSMaterialButtonRectangle();
-        rSMaterialButtonRectangle8 = new rojerusan.RSMaterialButtonRectangle();
-        jTextField1 = new javax.swing.JTextField();
-        rSMaterialButtonRectangle3 = new rojerusan.RSMaterialButtonRectangle();
+        BSearch = new rojerusan.RSMaterialButtonRectangle();
+        BCreate = new rojerusan.RSMaterialButtonRectangle();
+        BUpdate = new rojerusan.RSMaterialButtonRectangle();
+        BDelete = new rojerusan.RSMaterialButtonRectangle();
+        BCancel = new rojerusan.RSMaterialButtonRectangle();
+        txtrole = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -71,59 +131,64 @@ public class UserPage extends javax.swing.JPanel {
         jLabel1.setText("MANAGE DATA USER");
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 290, 30));
 
-        jLabel2.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
-        jLabel2.setText("Kode User");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 120, -1));
+        jLabel2.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel2.setText("Kode user");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 120, -1));
 
-        jTextField2.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
-        jTextField2.setText("jTextField2");
-        jTextField2.setMargin(new java.awt.Insets(2, 10, 2, 10));
-        add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, 420, 50));
+        txtkode.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        txtkode.setMargin(new java.awt.Insets(2, 10, 2, 10));
+        txtkode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtkodeActionPerformed(evt);
+            }
+        });
+        add(txtkode, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 480, 50));
 
-        jTextField3.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
-        jTextField3.setText("jTextField2");
-        jTextField3.setMargin(new java.awt.Insets(2, 10, 2, 10));
-        add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 260, 420, 50));
+        txtname.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        txtname.setMargin(new java.awt.Insets(2, 10, 2, 10));
+        add(txtname, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 480, 50));
 
-        jLabel3.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
-        jLabel3.setText("Kode User");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 120, -1));
+        jLabel3.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel3.setText("Name user");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 120, -1));
 
-        jTextField4.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
-        jTextField4.setText("jTextField2");
-        jTextField4.setMargin(new java.awt.Insets(2, 10, 2, 10));
-        add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 360, 420, 50));
+        txtemail.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        txtemail.setMargin(new java.awt.Insets(2, 10, 2, 10));
+        add(txtemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 480, 50));
 
-        jLabel4.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
-        jLabel4.setText("Kode User");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 330, 120, -1));
+        jLabel4.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel4.setText("Email address");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 130, -1));
 
-        jLabel5.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
-        jLabel5.setText("Kode User");
-        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 120, -1));
+        jLabel5.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel5.setText("Password user");
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 130, 130, -1));
 
-        jTextField5.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
-        jTextField5.setText("jTextField2");
-        jTextField5.setMargin(new java.awt.Insets(2, 10, 2, 10));
-        add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 160, 430, 50));
+        txtpassword.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        txtpassword.setMargin(new java.awt.Insets(2, 10, 2, 10));
+        txtpassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtpasswordActionPerformed(evt);
+            }
+        });
+        add(txtpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 160, 520, 50));
 
-        jTextField6.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
-        jTextField6.setText("jTextField2");
-        jTextField6.setMargin(new java.awt.Insets(2, 10, 2, 10));
-        add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 260, 430, 50));
+        txttelepon.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        txttelepon.setMargin(new java.awt.Insets(2, 10, 2, 10));
+        add(txttelepon, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 260, 520, 50));
 
-        jLabel6.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
-        jLabel6.setText("Kode User");
-        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 230, 120, -1));
+        jLabel6.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel6.setText("Nomor telepon");
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 230, 140, -1));
 
-        jTextField7.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
-        jTextField7.setText("jTextField2");
-        jTextField7.setMargin(new java.awt.Insets(2, 10, 2, 10));
-        add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 360, 430, 50));
+        txtsearch.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        txtsearch.setText("jTextField2");
+        txtsearch.setMargin(new java.awt.Insets(2, 10, 2, 10));
+        add(txtsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 540, 790, 50));
 
-        jLabel7.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
-        jLabel7.setText("Kode User");
-        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 330, 120, -1));
+        jLabel7.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel7.setText("Role user");
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 330, 120, -1));
 
         TableUser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -140,32 +205,166 @@ public class UserPage extends javax.swing.JPanel {
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 630, 1110, 310));
 
-        rSMaterialButtonRectangle2.setText("CANCEL");
-        rSMaterialButtonRectangle2.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
-        add(rSMaterialButtonRectangle2, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 540, 220, 60));
+        BSearch.setBackground(new java.awt.Color(204, 204, 204));
+        BSearch.setForeground(new java.awt.Color(0, 0, 0));
+        BSearch.setText("SEARCH");
+        BSearch.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
+        BSearch.setType(rojerusan.RSMaterialButtonRectangle.Type.RAISED);
+        add(BSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 540, 220, 50));
 
-        rSMaterialButtonRectangle6.setText("CREATE");
-        rSMaterialButtonRectangle6.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
-        add(rSMaterialButtonRectangle6, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 450, 230, 60));
+        BCreate.setBackground(new java.awt.Color(0, 153, 0));
+        BCreate.setText("CREATE");
+        BCreate.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
+        BCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BCreateActionPerformed(evt);
+            }
+        });
+        add(BCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 240, 60));
 
-        rSMaterialButtonRectangle7.setText("UPDATE");
-        rSMaterialButtonRectangle7.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
-        add(rSMaterialButtonRectangle7, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 450, 220, 60));
+        BUpdate.setBackground(new java.awt.Color(255, 153, 0));
+        BUpdate.setText("UPDATE");
+        BUpdate.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
+        BUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BUpdateActionPerformed(evt);
+            }
+        });
+        add(BUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 450, 250, 60));
 
-        rSMaterialButtonRectangle8.setText("DELETE");
-        rSMaterialButtonRectangle8.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
-        add(rSMaterialButtonRectangle8, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 450, 220, 60));
+        BDelete.setBackground(new java.awt.Color(204, 0, 0));
+        BDelete.setText("DELETE");
+        BDelete.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
+        BDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BDeleteActionPerformed(evt);
+            }
+        });
+        add(BDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 450, 250, 60));
 
-        jTextField1.setText("jTextField1");
-        add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 550, 660, 50));
+        BCancel.setBackground(new java.awt.Color(51, 51, 255));
+        BCancel.setText("CANCEL");
+        BCancel.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
+        BCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BCancelActionPerformed(evt);
+            }
+        });
+        add(BCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 450, 240, 60));
 
-        rSMaterialButtonRectangle3.setText("CANCEL");
-        rSMaterialButtonRectangle3.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
-        add(rSMaterialButtonRectangle3, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 450, 220, 60));
+        txtrole.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        txtrole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        txtrole.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtroleActionPerformed(evt);
+            }
+        });
+        add(txtrole, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 360, 520, 50));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtpasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtpasswordActionPerformed
+
+    private void txtroleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtroleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtroleActionPerformed
+
+    private void txtkodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtkodeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtkodeActionPerformed
+
+    private void BCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BCreateActionPerformed
+        // TODO add your handling code here:
+         if (BCreate.getText().equals("CREATE")) {
+            BCreate.setText("SUBMIT");
+            BUpdate.setEnabled(false);
+            BDelete.setEnabled(false);
+            BCancel.setText("CANCEL");
+
+            OpenInputan();
+        } else if (BCreate.getText().equals("SUBMIT")) {
+            if (txtkode.getText().equals("") || txtname.getText().equals("")
+                    || txtemail.getText().equals("") || txtpassword.getText().equals("")
+                    || txttelepon.getText().equals("")
+                    || txtrole.getSelectedItem().equals("")) {
+                JOptionPane.showMessageDialog(null, "Please Input All Inputan");
+                txtkode.requestFocus();
+            } else {
+                BCreate.setText("CREATE");
+            }
+        }
+    }//GEN-LAST:event_BCreateActionPerformed
+
+    private void BUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BUpdateActionPerformed
+        // TODO add your handling code here:
+        if (BUpdate.getText().equals("UPDATE")) {
+            BUpdate.setText("SUBMIT");
+            BCreate.setEnabled(false);
+            BDelete.setEnabled(false);
+            BCancel.setText("CANCEL");
+
+            OpenInputan();
+        } else if (BUpdate.getText().equals("SUBMIT")) {
+             if (txtkode.getText().equals("") || txtname.getText().equals("")
+                    || txtemail.getText().equals("") || txtpassword.getText().equals("")
+                    || txttelepon.getText().equals("")
+                    || txtrole.getSelectedItem().equals("")) {
+                JOptionPane.showMessageDialog(null, "Please Input All Inputan");
+                txtkode.requestFocus();
+            } else {
+                BUpdate.setText("UPDATE");
+            }
+        }
+    }//GEN-LAST:event_BUpdateActionPerformed
+
+    private void BDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BDeleteActionPerformed
+        // TODO add your handling code here:
+        if (BDelete.getText().equals("DELETE")) {
+            BDelete.setText("SUBMIT");
+            BCreate.setEnabled(false);
+            BUpdate.setEnabled(false);
+            BCancel.setText("CANCEL");
+
+            OpenInputan();
+        } else if (BDelete.getText().equals("SUBMIT")) {
+             if (txtkode.getText().equals("") || txtname.getText().equals("")
+                    || txtemail.getText().equals("") || txtpassword.getText().equals("")
+                    || txttelepon.getText().equals("")
+                    || txtrole.getSelectedItem().equals("")) {
+                JOptionPane.showMessageDialog(null, "Please Input All Inputan");
+                txtkode.requestFocus();
+            } else {
+                 int inputan = JOptionPane.showConfirmDialog(this,
+                        "Apakah Anda yakin delete data tersebut", "Confirm Delete",JOptionPane.YES_NO_OPTION);
+                if (inputan == JOptionPane.YES_OPTION){
+                    BDelete.setText("DELETE");
+                }else{
+                    
+                }
+            }
+        }
+    }//GEN-LAST:event_BDeleteActionPerformed
+
+    private void BCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BCancelActionPerformed
+        // TODO add your handling code here:
+        if (BCancel.getText().equals("CLEAR")){
+            ClearForm();
+        }else if (BCancel.getText().equals("CANCEL")){
+            ClearForm();
+            ButtonEnabled();
+            OpenInputan();
+            BCancel.setText("CLEAR");
+        }
+    }//GEN-LAST:event_BCancelActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private rojerusan.RSMaterialButtonRectangle BCancel;
+    private rojerusan.RSMaterialButtonRectangle BCreate;
+    private rojerusan.RSMaterialButtonRectangle BDelete;
+    private rojerusan.RSMaterialButtonRectangle BSearch;
+    private rojerusan.RSMaterialButtonRectangle BUpdate;
     private javax.swing.JTable TableUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -176,17 +375,12 @@ public class UserPage extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle2;
-    private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle3;
-    private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle6;
-    private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle7;
-    private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle8;
+    private javax.swing.JTextField txtemail;
+    private javax.swing.JTextField txtkode;
+    private javax.swing.JTextField txtname;
+    private javax.swing.JTextField txtpassword;
+    private javax.swing.JComboBox<String> txtrole;
+    private javax.swing.JTextField txtsearch;
+    private javax.swing.JTextField txttelepon;
     // End of variables declaration//GEN-END:variables
 }

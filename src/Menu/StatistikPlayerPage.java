@@ -15,7 +15,65 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
      */
     public StatistikPlayerPage() {
         initComponents();
+        
+        LockInputan();
+        ButtonEnabled();
     }
+    
+    private void LockInputan(){
+//        txtkode.setEnabled(false);
+//        txtname.setEnabled(false);
+//        txtemail.setEnabled(false);
+//        txtpassword.setEnabled(false);
+//        txttelepon.setEnabled(false);
+//        txtrole.setEnabled(false);
+    }
+    
+    private void OpenInputan(){
+//        txtkode.setEnabled(true);
+//        txtname.setEnabled(true);
+//        txtemail.setEnabled(true);
+//        txtpassword.setEnabled(true);
+//        txttelepon.setEnabled(true);
+//        txtrole.setEnabled(true);
+    }
+    
+    private void ClearForm(){
+//        txtkode.setEditable(true);
+//        txtname.setText(null);
+//        txtemail.setText(null);
+//        txtpassword.setText(null);
+//        txtrole.setSelectedIndex(0);
+//        txttelepon.setText(null);
+    }
+    
+    private void ButtonEnabled(){
+        BCreate.setEnabled(true);
+        BUpdate.setEnabled(true);
+        BDelete.setEnabled(true);
+        BCancel.setEnabled(true);
+    }
+    
+    // bagian CRUD
+    
+    private void ShowTable(){
+        
+    }
+     
+    private void CreateQuery(){
+        
+    }
+    
+    private void UpdateQuery(){
+        
+    }
+    
+    private void DeleteQuery(){
+        
+    }
+    
+    // selesai bagian CRUD
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,21 +84,186 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setBackground(new java.awt.Color(255, 102, 102));
+        jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TablePlayer = new javax.swing.JTable();
+        BCreate = new rojerusan.RSMaterialButtonRectangle();
+        BUpdate = new rojerusan.RSMaterialButtonRectangle();
+        BDelete = new rojerusan.RSMaterialButtonRectangle();
+        BCancel = new rojerusan.RSMaterialButtonRectangle();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1108, Short.MAX_VALUE)
+        setBackground(new java.awt.Color(255, 255, 255));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Verdana", 1, 25)); // NOI18N
+        jLabel1.setText("MANAGE DATA STATISTIK PLAYER");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 490, 30));
+
+        jPanel1.setBackground(new java.awt.Color(240, 0, 0));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 290, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 941, Short.MAX_VALUE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
         );
+
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 290, 5));
+
+        TablePlayer.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(TablePlayer);
+
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 590, 1110, 350));
+
+        BCreate.setBackground(new java.awt.Color(0, 153, 0));
+        BCreate.setText("CREATE");
+        BCreate.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
+        BCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BCreateActionPerformed(evt);
+            }
+        });
+        add(BCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 480, 240, 60));
+
+        BUpdate.setBackground(new java.awt.Color(255, 153, 0));
+        BUpdate.setText("UPDATE");
+        BUpdate.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
+        BUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BUpdateActionPerformed(evt);
+            }
+        });
+        add(BUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 480, 250, 60));
+
+        BDelete.setBackground(new java.awt.Color(204, 0, 0));
+        BDelete.setText("DELETE");
+        BDelete.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
+        BDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BDeleteActionPerformed(evt);
+            }
+        });
+        add(BDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 480, 250, 60));
+
+        BCancel.setBackground(new java.awt.Color(51, 51, 255));
+        BCancel.setText("CANCEL");
+        BCancel.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
+        BCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BCancelActionPerformed(evt);
+            }
+        });
+        add(BCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 480, 240, 60));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void BCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BCreateActionPerformed
+        // TODO add your handling code here:
+        if (BCreate.getText().equals("CREATE")) {
+            BCreate.setText("SUBMIT");
+            BUpdate.setEnabled(false);
+            BDelete.setEnabled(false);
+            BCancel.setText("CANCEL");
+
+            OpenInputan();
+        } else if (BCreate.getText().equals("SUBMIT")) {
+            //            if (txtkode.getText().equals("") || txtname.getText().equals("")
+                //                || txtemail.getText().equals("") || txtpassword.getText().equals("")
+                //                || txttelepon.getText().equals("")
+                //                || txtrole.getSelectedItem().equals("")) {
+                //                JOptionPane.showMessageDialog(null, "Please Input All Inputan");
+                //                txtkode.requestFocus();
+                //            } else {
+                //                BCreate.setText("CREATE");
+                //            }
+        }
+    }//GEN-LAST:event_BCreateActionPerformed
+
+    private void BUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BUpdateActionPerformed
+        // TODO add your handling code here:
+        if (BUpdate.getText().equals("UPDATE")) {
+            BUpdate.setText("SUBMIT");
+            BCreate.setEnabled(false);
+            BDelete.setEnabled(false);
+            BCancel.setText("CANCEL");
+
+            OpenInputan();
+        } else if (BUpdate.getText().equals("SUBMIT")) {
+            //            if (txtkode.getText().equals("") || txtname.getText().equals("")
+                //                || txtemail.getText().equals("") || txtpassword.getText().equals("")
+                //                || txttelepon.getText().equals("")
+                //                || txtrole.getSelectedItem().equals("")) {
+                //                JOptionPane.showMessageDialog(null, "Please Input All Inputan");
+                //                txtkode.requestFocus();
+                //            } else {
+                //                BUpdate.setText("UPDATE");
+                //            }
+        }
+    }//GEN-LAST:event_BUpdateActionPerformed
+
+    private void BDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BDeleteActionPerformed
+        // TODO add your handling code here:
+        if (BDelete.getText().equals("DELETE")) {
+            BDelete.setText("SUBMIT");
+            BCreate.setEnabled(false);
+            BUpdate.setEnabled(false);
+            BCancel.setText("CANCEL");
+
+            OpenInputan();
+        } else if (BDelete.getText().equals("SUBMIT")) {
+            //            if (txtkode.getText().equals("") || txtname.getText().equals("")
+                //                || txtemail.getText().equals("") || txtpassword.getText().equals("")
+                //                || txttelepon.getText().equals("")
+                //                || txtrole.getSelectedItem().equals("")) {
+                //                JOptionPane.showMessageDialog(null, "Please Input All Inputan");
+                //                txtkode.requestFocus();
+                //            } else {
+                //                int inputan = JOptionPane.showConfirmDialog(this,
+                    //                    "Apakah Anda yakin delete data tersebut", "Confirm Delete",JOptionPane.YES_NO_OPTION);
+                //                if (inputan == JOptionPane.YES_OPTION){
+                    //                    BDelete.setText("DELETE");
+                    //                }else{
+                    //
+                    //                }
+                //            }
+        }
+    }//GEN-LAST:event_BDeleteActionPerformed
+
+    private void BCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BCancelActionPerformed
+        // TODO add your handling code here:
+        if (BCancel.getText().equals("CLEAR")){
+            ClearForm();
+        }else if (BCancel.getText().equals("CANCEL")){
+            ClearForm();
+            ButtonEnabled();
+            OpenInputan();
+            BCancel.setText("CLEAR");
+        }
+    }//GEN-LAST:event_BCancelActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private rojerusan.RSMaterialButtonRectangle BCancel;
+    private rojerusan.RSMaterialButtonRectangle BCreate;
+    private rojerusan.RSMaterialButtonRectangle BDelete;
+    private rojerusan.RSMaterialButtonRectangle BUpdate;
+    private javax.swing.JTable TablePlayer;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

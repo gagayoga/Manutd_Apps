@@ -51,6 +51,22 @@ public class DashboardForm extends javax.swing.JFrame {
         String dateTime = dateFormat.format(now);
         LabelDatetime.setText(dateTime);
     }
+    
+    private void GetCountUser(){
+        
+    }
+    
+    private void GetCountPlayer(){
+        
+    }
+    
+    private void GetCountNews(){
+        
+    }
+    
+    private void ShowTableUser(){
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
