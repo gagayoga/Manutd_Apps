@@ -4,8 +4,11 @@
  */
 package Main;
 
+import Koneksi.Config;
 import Menu.RegisterPage;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  *
@@ -26,6 +29,25 @@ public class LoginForm extends javax.swing.JFrame {
      
     public javax.swing.JPanel getLoginPanel() {
         return LoginPanel;
+    }
+    
+    private void LoginQuerry () {
+        
+        try{
+            int no = 1;
+            String sql = "SELECT * FROM user WHERE email ='"+ txtemail.getText()+"' AND password='" + txtpassword.getText() +"'";
+            java.sql.Connection conn = (Connection)Config.configDB();
+            java.sql.Statement stm = conn.createStatement();
+            java.sql.ResultSet res = stm.executeQuery(sql);
+            
+            if(res.next()){
+                DashboardForm df = new DashboardForm();
+                df.setVisible(true);
+                this.dispose();
+            }
+        }catch (SQLException e){
+            System.out.print("Eror : " + e.getMessage());
+        }
     }
     
     /**
@@ -122,6 +144,11 @@ public class LoginForm extends javax.swing.JFrame {
         btnlogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnlogin.setFont(new java.awt.Font("Roboto Medium", 1, 24)); // NOI18N
         btnlogin.setRippleColor(new java.awt.Color(0, 255, 204));
+        btnlogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnloginActionPerformed(evt);
+            }
+        });
 
         lbllink.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         lbllink.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -362,6 +389,11 @@ public class LoginForm extends javax.swing.JFrame {
             txtpassword.setForeground(new Color(204,204,204));
         }
     }//GEN-LAST:event_txtpasswordFocusLost
+
+    private void btnloginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnloginActionPerformed
+        // TODO add your handling code here:
+        LoginQuerry();
+    }//GEN-LAST:event_btnloginActionPerformed
 
     /**
      * @param args the command line arguments

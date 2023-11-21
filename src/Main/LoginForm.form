@@ -280,6 +280,9 @@
                   <Color blue="cc" green="ff" red="0" type="rgb"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnloginActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lbllink">
               <Properties>
