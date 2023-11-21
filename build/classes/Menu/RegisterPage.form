@@ -63,29 +63,27 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="lblconfirm" alignment="0" min="-2" pref="163" max="-2" attributes="0"/>
-                              <Component id="lbltelepon" alignment="0" min="-2" pref="163" max="-2" attributes="0"/>
-                              <Component id="lblemail" alignment="0" min="-2" pref="163" max="-2" attributes="0"/>
-                              <Component id="lblpassword" alignment="0" min="-2" pref="163" max="-2" attributes="0"/>
-                              <Component id="lblname" alignment="0" min="-2" pref="163" max="-2" attributes="0"/>
-                              <Component id="txttelepon" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtconfirm" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtpassword" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtemail" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtname" alignment="0" max="32767" attributes="0"/>
-                              <Component id="btnregister" alignment="0" min="-2" pref="446" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                      <Group type="103" alignment="1" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="lblconfirm" alignment="0" min="-2" pref="163" max="-2" attributes="0"/>
+                          <Component id="lbltelepon" alignment="0" min="-2" pref="163" max="-2" attributes="0"/>
+                          <Component id="lblemail" alignment="0" min="-2" pref="163" max="-2" attributes="0"/>
+                          <Component id="lblpassword" alignment="0" min="-2" pref="163" max="-2" attributes="0"/>
+                          <Component id="lblname" alignment="0" min="-2" pref="163" max="-2" attributes="0"/>
+                          <Component id="txttelepon" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtconfirm" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtpassword" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtemail" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtname" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnregister" alignment="0" min="-2" pref="446" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="lbllink" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="linklogin" min="-2" pref="101" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+                  <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -96,7 +94,7 @@
                   <Component id="lbljudul" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="lbldeskripsi" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="42" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                   <Component id="lblname" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                   <Component id="txtname" min="-2" pref="48" max="-2" attributes="0"/>
@@ -110,7 +108,7 @@
                   <Component id="txtpassword" min="-2" pref="50" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   <Component id="lblconfirm" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   <Component id="txtconfirm" min="-2" pref="48" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   <Component id="lbltelepon" min="-2" max="-2" attributes="0"/>
@@ -123,7 +121,7 @@
                       <Component id="lbllink" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="linklogin" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                  <EmptySpace pref="46" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

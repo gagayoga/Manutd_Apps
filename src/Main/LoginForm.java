@@ -4,8 +4,14 @@
  */
 package Main;
 
+import Koneksi.Config;
 import Menu.RegisterPage;
+import Session.SessionLogin;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,6 +32,71 @@ public class LoginForm extends javax.swing.JFrame {
      
     public javax.swing.JPanel getLoginPanel() {
         return LoginPanel;
+    }
+    
+    private void ClearForm(){
+        txtemail.setText("");
+        txtpassword.setText("");
+    }
+    
+    private void LoadLogin(){
+        if(!txtemail.getText().equals("Input email") || !txtpassword.getText().equals("Input password")){
+            if (txtemail.getText().equals("") || txtpassword.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Please input Username or Password"
+                    , "Login Failed", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            LoginQuerry();
+        }
+        }else{
+            JOptionPane.showMessageDialog(this, "Please input Username or Password"
+                    , "Login Failed", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+    }
+    
+    private void LoginQuerry () {
+        String getname = null, getemail = null, getpassword = null, gettelepon = null, getrole = null;
+        try{
+            int no = 1;
+            String sql = "SELECT * FROM user WHERE email ='"+ txtemail.getText()+"' AND password='" + txtpassword.getText() +"'";
+            java.sql.Connection conn = (Connection)Config.configDB();
+            java.sql.Statement stm = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            java.sql.ResultSet rslt = stm.executeQuery(sql);
+            
+            while (rslt.next()){
+                getname = rslt.getString("name");
+                getemail = txtemail.getText().toString();
+                getpassword = txtpassword.getText().toString();
+                gettelepon = rslt.getString("no_telp");
+                getrole = rslt.getString("role");
+            }
+            rslt.last();
+            //mengecek jumlah baris pada hasil query jika datanya 1 maka login berhasil
+            if(rslt.getRow()==1){
+               SessionLogin.setNameUser(getname);
+               SessionLogin.setEmailUser(getemail);
+               SessionLogin.setPasswordUser(getpassword);
+               SessionLogin.setTeleponUser(gettelepon);
+               SessionLogin.setRoleUser(getrole);
+               
+                JOptionPane.showMessageDialog(this, "Login Succesfully, Welcome back " + getname 
+                , "Login Succes", JOptionPane.INFORMATION_MESSAGE);
+                
+                DashboardForm formdashboard = new DashboardForm();
+                formdashboard.setVisible(true);
+                ClearForm();
+                
+                this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(this, "Login Failed, Please Check Your Username or Password" 
+                , "Login Failed", JOptionPane.ERROR_MESSAGE);
+                txtemail.requestFocus();
+                txtemail.setText("");
+                txtpassword.setText("");
+            }
+        }catch (SQLException e){
+            System.out.print("Eror : " + e.getMessage());
+        }
     }
     
     /**
@@ -122,6 +193,11 @@ public class LoginForm extends javax.swing.JFrame {
         btnlogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnlogin.setFont(new java.awt.Font("Roboto Medium", 1, 24)); // NOI18N
         btnlogin.setRippleColor(new java.awt.Color(0, 255, 204));
+        btnlogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnloginActionPerformed(evt);
+            }
+        });
 
         lbllink.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         lbllink.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -362,6 +438,11 @@ public class LoginForm extends javax.swing.JFrame {
             txtpassword.setForeground(new Color(204,204,204));
         }
     }//GEN-LAST:event_txtpasswordFocusLost
+
+    private void btnloginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnloginActionPerformed
+        // TODO add your handling code here:
+        LoadLogin();
+    }//GEN-LAST:event_btnloginActionPerformed
 
     /**
      * @param args the command line arguments
