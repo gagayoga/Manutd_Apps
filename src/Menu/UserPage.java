@@ -4,7 +4,11 @@
  */
 package Menu;
 
+import Koneksi.Config;
+import java.sql.Connection;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,6 +24,7 @@ public class UserPage extends javax.swing.JPanel {
         
         LockInputan();
         ButtonEnabled();
+        ShowTable();
     }
     
     private void LockInputan(){
@@ -60,7 +65,30 @@ public class UserPage extends javax.swing.JPanel {
     // bagian CRUD
     
     private void ShowTable(){
+        DefaultTableModel model = new DefaultTableModel();
+        model .addColumn("No.");
+        model .addColumn("UserId.");
+        model .addColumn("nama.");
+        model .addColumn("Email.");
+        model .addColumn("Password.");
+        model .addColumn("No telp.");
+        model .addColumn("Role.");
         
+        try{
+            int no = 1;
+            String sql = "SELECT * FROM User";
+            java.sql.Connection conn = (Connection)Config.configDB();
+            java.sql.Statement stm = conn.createStatement();
+            java.sql.ResultSet res = stm.executeQuery(sql);
+            
+            while(res.next()){
+                model.addRow(new Object[]{no++,res.getString(1),res.getString(2),res.getString(3),res.getString(4),res.getString(5),res.getString(6)
+                });
+                TableUser.setModel(model);
+            }
+        }catch (SQLException e){
+            System.out.println("Error : " + e.getMessage());
+        }
     }
      
     private void CreateQuery(){

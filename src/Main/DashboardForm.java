@@ -4,6 +4,7 @@
  */
 package Main;
 
+import Koneksi.Config;
 import Menu.NewsPage;
 import Menu.UserPage;
 import Menu.PlayerPage;
@@ -11,9 +12,12 @@ import Menu.StatistikPlayerPage;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -33,6 +37,8 @@ public class DashboardForm extends javax.swing.JFrame {
         MainPanel.add(PanelDashboard);
         MainPanel.repaint();
         MainPanel.revalidate();
+        
+        ShowTableUser();
         
         LoadDateTime();
         timer = new Timer(1000, new ActionListener(){
@@ -66,6 +72,27 @@ public class DashboardForm extends javax.swing.JFrame {
     
     private void ShowTableUser(){
         
+        DefaultTableModel model = new DefaultTableModel();
+        model .addColumn("nama.");
+        model .addColumn("Email.");
+        model .addColumn("Password.");
+        model .addColumn("No telp.");
+        model .addColumn("Role.");
+        
+        try{
+            String sql = "SELECT * FROM User";
+            java.sql.Connection conn = (Connection)Config.configDB();
+            java.sql.Statement stm = conn.createStatement();
+            java.sql.ResultSet res = stm.executeQuery(sql);
+            
+            while(res.next()){
+                model.addRow(new Object[]{res.getString(1),res.getString(2),res.getString(3),res.getString(4),res.getString(5)     
+                });
+                TableUser.setModel(model);
+            }
+        }catch (SQLException e){
+            System.out.println("Error : " + e.getMessage());
+        }
     }
 
     /**
@@ -130,7 +157,7 @@ public class DashboardForm extends javax.swing.JFrame {
         PanelTable = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        Tabledata = new javax.swing.JTable();
+        TableUser = new javax.swing.JTable();
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -697,9 +724,9 @@ public class DashboardForm extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Verdana", 1, 20)); // NOI18N
         jLabel6.setText("User Recents");
 
-        Tabledata.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        Tabledata.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        Tabledata.setModel(new javax.swing.table.DefaultTableModel(
+        TableUser.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        TableUser.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        TableUser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -707,14 +734,14 @@ public class DashboardForm extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7"
             }
         ));
-        Tabledata.setGridColor(new java.awt.Color(204, 204, 204));
-        Tabledata.setRowHeight(40);
-        Tabledata.addMouseListener(new java.awt.event.MouseAdapter() {
+        TableUser.setGridColor(new java.awt.Color(204, 204, 204));
+        TableUser.setRowHeight(40);
+        TableUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TabledataMouseClicked(evt);
+                TableUserMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(Tabledata);
+        jScrollPane1.setViewportView(TableUser);
 
         javax.swing.GroupLayout PanelTableLayout = new javax.swing.GroupLayout(PanelTable);
         PanelTable.setLayout(PanelTableLayout);
@@ -814,9 +841,9 @@ public class DashboardForm extends javax.swing.JFrame {
         MainPanel.revalidate();
     }//GEN-LAST:event_btndashboardMouseClicked
 
-    private void TabledataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabledataMouseClicked
+    private void TableUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableUserMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_TabledataMouseClicked
+    }//GEN-LAST:event_TableUserMouseClicked
 
     private void LabelBeritaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_LabelBeritaFocusGained
         // TODO add your handling code here:
@@ -1041,7 +1068,6 @@ public class DashboardForm extends javax.swing.JFrame {
     private javax.swing.JPanel PanelBtnStatistik;
     private javax.swing.JPanel PanelBtnUser;
     private javax.swing.JPanel PanelButton;
-    private javax.swing.JPanel PanelButton1;
     private javax.swing.JPanel PanelDashboard;
     private javax.swing.JPanel PanelImage;
     private javax.swing.JPanel PanelLine;
@@ -1052,11 +1078,10 @@ public class DashboardForm extends javax.swing.JFrame {
     private javax.swing.JPanel PanelTotalUser;
     private javax.swing.JPanel Paneltotal;
     private javax.swing.JPanel SidebarPanel;
-    private javax.swing.JTable Tabledata;
+    private javax.swing.JTable TableUser;
     private javax.swing.JLabel ValuePlayer;
     private javax.swing.JLabel ValueUser;
     private javax.swing.JLabel btndashboard;
-    private javax.swing.JLabel btndashboard1;
     private javax.swing.JLabel btnlogout;
     private javax.swing.JLabel btnnews;
     private javax.swing.JLabel btnplayer;
@@ -1065,7 +1090,6 @@ public class DashboardForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;

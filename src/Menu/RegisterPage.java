@@ -4,8 +4,13 @@
  */
 package Menu;
 
+import Koneksi.Config;
 import Main.LoginForm;
+import java.awt.HeadlessException;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Asus
@@ -23,6 +28,21 @@ public class RegisterPage extends javax.swing.JPanel {
         
         txtconfirm.setText("Confirm password");
         txtconfirm.setEchoChar((char) 0);
+    }
+    
+    private void RegisterQuery(){
+        String role = "User";
+        int id=2;
+        try{
+            String sql = "INSERT INTO user VALUES ('"+id+"','"+txtname.getText()+"','"+txtemail.getText()+"','"+txtpassword.getText()+"','"+txttelepon.getText()+"','"+role+ "')";
+            java.sql.Connection conn = (Connection)Config.configDB();
+            java.sql.PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.execute();
+            JOptionPane.showMessageDialog(null, "Register Succesfully.");
+            
+        }catch(HeadlessException | SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }
     
     /**
@@ -297,6 +317,7 @@ public class RegisterPage extends javax.swing.JPanel {
 
     private void btnregisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregisterActionPerformed
         // TODO add your handling code here:;
+        RegisterQuery();
     }//GEN-LAST:event_btnregisterActionPerformed
 
     private void txtpasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtpasswordFocusGained
