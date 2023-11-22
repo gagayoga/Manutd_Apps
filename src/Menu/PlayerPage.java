@@ -122,7 +122,7 @@ public class PlayerPage extends javax.swing.JPanel {
         }
     }
 
-    int kode = 2000;
+    int kode = 2001;
 
     private void KodePlayer() {
         String kodePlayer = "MUN" + kode;

@@ -5,6 +5,7 @@
 package Main;
 
 import Koneksi.Config;
+import Main.User.DashboardFormUser;
 import Menu.RegisterPage;
 import Session.SessionLogin;
 import java.awt.Color;
@@ -63,30 +64,6 @@ public class LoginForm extends javax.swing.JFrame {
             java.sql.Statement stm = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             java.sql.ResultSet rslt = stm.executeQuery(sql);
 
-//            if (rslt.next()) {
-//                String RoleUser;
-//
-//                RoleUser = rslt.getString("role");
-//                
-//                if(RoleUser.equals("Admin")){
-//                    
-//                    JOptionPane.showMessageDialog(this, "Login Succesfully, Welcome back " + getname,
-//                        "Login Succes", JOptionPane.INFORMATION_MESSAGE);
-//                    DashboardForm admin = new DashboardForm();
-//                    admin.setVisible(true);
-//                    this.dispose();
-//                    
-//                }else if (RoleUser.equals("User")){
-//                    JOptionPane.showMessageDialog(this, "Login Succesfully, Welcome back " + getname,
-//                        "Login Succes", JOptionPane.INFORMATION_MESSAGE);
-//                     DashboardForm admin = new DashboardForm();
-//                    admin.setVisible(true);
-//                    this.dispose();
-//                }else{
-//                     JOptionPane.showMessageDialog(this, "Akun anda berbahaya" + getname,
-//                        "Login Succes", JOptionPane.INFORMATION_MESSAGE);
-//                }
-//            }
             while (rslt.next()) {
 
                 getname = rslt.getString("name");
@@ -104,14 +81,28 @@ public class LoginForm extends javax.swing.JFrame {
                 SessionLogin.setTeleponUser(gettelepon);
                 SessionLogin.setRoleUser(getrole);
 
-                JOptionPane.showMessageDialog(this, "Login Succesfully, Welcome back " + getname,
-                        "Login Succes", JOptionPane.INFORMATION_MESSAGE);
+                String RoleUser = SessionLogin.getRoleUser();
 
-                DashboardForm formdashboard = new DashboardForm();
-                formdashboard.setVisible(true);
-                ClearForm();
+                if (RoleUser.equals("Admin")) {
 
-                this.dispose();
+                    JOptionPane.showMessageDialog(this, "Login Succesfully, Welcome back " + getname,
+                            "Login Succes", JOptionPane.INFORMATION_MESSAGE);
+                    DashboardForm admin = new DashboardForm();
+                    admin.setVisible(true);
+                    ClearForm();
+                    this.dispose();
+
+                } else if (RoleUser.equals("User")) {
+                    JOptionPane.showMessageDialog(this, "Login Succesfully, Welcome back " + getname,
+                            "Login Succes", JOptionPane.INFORMATION_MESSAGE);
+                    DashboardFormUser user = new DashboardFormUser();
+                    user.setVisible(true);
+                    ClearForm();
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Akun anda berbahaya" + getname,
+                            "Login Succes", JOptionPane.INFORMATION_MESSAGE);
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Login Failed, Please Check Your Username or Password",
                         "Login Failed", JOptionPane.ERROR_MESSAGE);
