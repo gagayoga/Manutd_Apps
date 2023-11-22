@@ -9,6 +9,7 @@ import Menu.NewsPage;
 import Menu.UserPage;
 import Menu.PlayerPage;
 import Menu.StatistikPlayerPage;
+import Session.SessionLogin;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,73 +26,115 @@ import javax.swing.table.DefaultTableModel;
  * @author Asus
  */
 public class DashboardForm extends javax.swing.JFrame {
+
     private Timer timer;
+
     /**
      * Creates new form DashboardForm
      */
     public DashboardForm() {
         initComponents();
         setLocationRelativeTo(null);
-        
+
         MainPanel.removeAll();
 
         MainPanel.add(PanelDashboard);
         MainPanel.repaint();
         MainPanel.revalidate();
-        
+
         ShowTableUser();
-        
+
         LoadDateTime();
-        timer = new Timer(1000, new ActionListener(){
-             @Override
-             public void actionPerformed(ActionEvent e){
-                 LoadDateTime();
-             }
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LoadDateTime();
+            }
         });
-        
+
         timer.start();
+
+        GetCountUser();
+        GetCountPlayer();
+        GetCountNews();
     }
-    
-    private void LoadDateTime(){
+
+    private void LoadDateTime() {
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateTime = dateFormat.format(now);
         LabelDatetime.setText(dateTime);
     }
-    
-    private void GetCountUser(){
-        
+
+    private void GetCountUser() {
+        try {
+            String countQuery = "SELECT COUNT(*) AS jumlahdata FROM user";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.Statement stm = conn.createStatement();
+            java.sql.ResultSet rslt = stm.executeQuery(countQuery);
+
+            if (rslt.next()) {
+                int totalUser = rslt.getInt("jumlahdata");
+                ValueUser.setText(String.valueOf(totalUser));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }
-    
-    private void GetCountPlayer(){
-        
+
+    private void GetCountPlayer() {
+        try {
+            String countQuery = "SELECT COUNT(*) AS jumlahdata FROM player";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.Statement stm = conn.createStatement();
+            java.sql.ResultSet rslt = stm.executeQuery(countQuery);
+
+            if (rslt.next()) {
+                int totalUser = rslt.getInt("jumlahdata");
+                ValuePlayer.setText(String.valueOf(totalUser));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }
-    
-    private void GetCountNews(){
-        
+
+    private void GetCountNews() {
+        try {
+            String countQuery = "SELECT COUNT(*) AS jumlahdata FROM news";
+            java.sql.Connection conn = (Connection) Config.configDB();
+            java.sql.Statement stm = conn.createStatement();
+            java.sql.ResultSet rslt = stm.executeQuery(countQuery);
+
+            if (rslt.next()) {
+                int totalUser = rslt.getInt("jumlahdata");
+                LabelTotal.setText(String.valueOf(totalUser));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }
-    
-    private void ShowTableUser(){
-        
+
+    private void ShowTableUser() {
+
         DefaultTableModel model = new DefaultTableModel();
-        model .addColumn("nama.");
-        model .addColumn("Email.");
-        model .addColumn("Password.");
-        model .addColumn("No telp.");
-        model .addColumn("Role.");
-        
-        try{
+        model.addColumn("nama.");
+        model.addColumn("Email.");
+        model.addColumn("Password.");
+        model.addColumn("No telp.");
+        model.addColumn("Role.");
+
+        try {
             String sql = "SELECT * FROM User";
-            java.sql.Connection conn = (Connection)Config.configDB();
+            java.sql.Connection conn = (Connection) Config.configDB();
             java.sql.Statement stm = conn.createStatement();
             java.sql.ResultSet res = stm.executeQuery(sql);
-            
-            while(res.next()){
-                model.addRow(new Object[]{res.getString(1),res.getString(2),res.getString(3),res.getString(4),res.getString(5)     
+
+            while (res.next()) {
+                model.addRow(new Object[]{res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5)
                 });
                 TableUser.setModel(model);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Error : " + e.getMessage());
         }
     }
@@ -266,6 +310,9 @@ public class DashboardForm extends javax.swing.JFrame {
         btnlogout.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnlogout.setText("Log Out");
         btnlogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnlogoutMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnlogoutMouseEntered(evt);
             }
@@ -720,10 +767,15 @@ public class DashboardForm extends javax.swing.JFrame {
         );
 
         PanelTable.setBackground(new java.awt.Color(255, 255, 255));
+        PanelTable.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true), "Data Pengguna Terbaru", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP));
+        PanelTable.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel6.setFont(new java.awt.Font("Verdana", 1, 20)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Verdana", 1, 23)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(204, 0, 0));
         jLabel6.setText("User Recents");
+        PanelTable.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
 
+        TableUser.setAutoCreateRowSorter(true);
         TableUser.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         TableUser.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         TableUser.setModel(new javax.swing.table.DefaultTableModel(
@@ -735,7 +787,7 @@ public class DashboardForm extends javax.swing.JFrame {
             }
         ));
         TableUser.setGridColor(new java.awt.Color(204, 204, 204));
-        TableUser.setRowHeight(40);
+        TableUser.setRowHeight(45);
         TableUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableUserMouseClicked(evt);
@@ -743,24 +795,7 @@ public class DashboardForm extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(TableUser);
 
-        javax.swing.GroupLayout PanelTableLayout = new javax.swing.GroupLayout(PanelTable);
-        PanelTable.setLayout(PanelTableLayout);
-        PanelTableLayout.setHorizontalGroup(
-            PanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(PanelTableLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(jLabel6)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        PanelTableLayout.setVerticalGroup(
-            PanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelTableLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel6)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        PanelTable.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 75, 1094, 290));
 
         javax.swing.GroupLayout PanelDashboardLayout = new javax.swing.GroupLayout(PanelDashboard);
         PanelDashboard.setLayout(PanelDashboardLayout);
@@ -841,10 +876,6 @@ public class DashboardForm extends javax.swing.JFrame {
         MainPanel.revalidate();
     }//GEN-LAST:event_btndashboardMouseClicked
 
-    private void TableUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableUserMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TableUserMouseClicked
-
     private void LabelBeritaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_LabelBeritaFocusGained
         // TODO add your handling code here:
     }//GEN-LAST:event_LabelBeritaFocusGained
@@ -855,7 +886,7 @@ public class DashboardForm extends javax.swing.JFrame {
 
     private void LabelBeritaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LabelBeritaMouseEntered
         // TODO add your handling code here:
-        PanelTotalBerita.setBackground(new Color(240,0,0));
+        PanelTotalBerita.setBackground(new Color(240, 0, 0));
         LabelTotal.setForeground(Color.white);
         LabelText.setForeground(Color.white);
         LabelTahun.setForeground(Color.white);
@@ -863,9 +894,9 @@ public class DashboardForm extends javax.swing.JFrame {
 
     private void LabelBeritaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LabelBeritaMouseExited
         // TODO add your handling code here:
-        PanelTotalBerita.setBackground(new Color(255,255,255));
-        PanelLine.setBackground(new Color(240,0,0));
-        LabelTotal.setForeground(new Color(240,0,0));
+        PanelTotalBerita.setBackground(new Color(255, 255, 255));
+        PanelLine.setBackground(new Color(240, 0, 0));
+        LabelTotal.setForeground(new Color(240, 0, 0));
         LabelText.setForeground(Color.black);
         LabelTahun.setForeground(Color.black);
     }//GEN-LAST:event_LabelBeritaMouseExited
@@ -875,7 +906,7 @@ public class DashboardForm extends javax.swing.JFrame {
         MainPanel.removeAll();
         MainPanel.repaint();
         MainPanel.revalidate();
-        
+
         UserPage panelUser = new UserPage();
         MainPanel.add(panelUser);
         MainPanel.repaint();
@@ -899,7 +930,7 @@ public class DashboardForm extends javax.swing.JFrame {
         MainPanel.removeAll();
         MainPanel.repaint();
         MainPanel.revalidate();
-        
+
         PlayerPage panelPlayer = new PlayerPage();
         MainPanel.add(panelPlayer);
         MainPanel.repaint();
@@ -923,7 +954,7 @@ public class DashboardForm extends javax.swing.JFrame {
         MainPanel.removeAll();
         MainPanel.repaint();
         MainPanel.revalidate();
-        
+
         StatistikPlayerPage panelStatistik = new StatistikPlayerPage();
         MainPanel.add(panelStatistik);
         MainPanel.repaint();
@@ -947,7 +978,7 @@ public class DashboardForm extends javax.swing.JFrame {
         MainPanel.removeAll();
         MainPanel.repaint();
         MainPanel.revalidate();
-        
+
         NewsPage panelNews = new NewsPage();
         MainPanel.add(panelNews);
         MainPanel.repaint();
@@ -968,7 +999,7 @@ public class DashboardForm extends javax.swing.JFrame {
 
     private void jLabel7MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseEntered
         // TODO add your handling code here:
-        PanelTotalPemain.setBackground(new Color(240,0,0));
+        PanelTotalPemain.setBackground(new Color(240, 0, 0));
         ValuePlayer.setForeground(Color.white);
         LabelPlayer.setForeground(Color.white);
         Labelyear.setForeground(Color.white);
@@ -976,16 +1007,16 @@ public class DashboardForm extends javax.swing.JFrame {
 
     private void jLabel7MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseExited
         // TODO add your handling code here:
-        PanelTotalPemain.setBackground(new Color(255,255,255));
-        PanelLine.setBackground(new Color(240,0,0));
-        ValuePlayer.setForeground(new Color(240,0,0));
+        PanelTotalPemain.setBackground(new Color(255, 255, 255));
+        PanelLine.setBackground(new Color(240, 0, 0));
+        ValuePlayer.setForeground(new Color(240, 0, 0));
         LabelPlayer.setForeground(Color.black);
         Labelyear.setForeground(Color.black);
     }//GEN-LAST:event_jLabel7MouseExited
 
     private void jLabel12MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseEntered
         // TODO add your handling code here:
-        PanelTotalUser.setBackground(new Color(240,0,0));
+        PanelTotalUser.setBackground(new Color(240, 0, 0));
         ValueUser.setForeground(Color.white);
         LabelUser.setForeground(Color.white);
         Labeltahunuser.setForeground(Color.white);
@@ -993,9 +1024,9 @@ public class DashboardForm extends javax.swing.JFrame {
 
     private void jLabel12MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseExited
         // TODO add your handling code here:
-        PanelTotalUser.setBackground(new Color(255,255,255));
-        PanelLine.setBackground(new Color(240,0,0));
-        ValueUser.setForeground(new Color(240,0,0));
+        PanelTotalUser.setBackground(new Color(255, 255, 255));
+        PanelLine.setBackground(new Color(240, 0, 0));
+        ValueUser.setForeground(new Color(240, 0, 0));
         LabelUser.setForeground(Color.black);
         Labeltahunuser.setForeground(Color.black);
     }//GEN-LAST:event_jLabel12MouseExited
@@ -1011,6 +1042,28 @@ public class DashboardForm extends javax.swing.JFrame {
         PanelLogout.setBackground(new Color(127, 4, 4));
         btnlogout.setForeground(Color.white);
     }//GEN-LAST:event_btnlogoutMouseEntered
+
+    private void TableUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableUserMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TableUserMouseClicked
+
+    private void btnlogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnlogoutMouseClicked
+        // TODO add your handling code here:
+        int selectedOption = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin log out?", "Konfirmasi Logout", JOptionPane.YES_NO_OPTION);
+        if (selectedOption == JOptionPane.YES_OPTION) {
+            SessionLogin.setNameUser(null);
+            SessionLogin.setEmailUser(null);
+            SessionLogin.setPasswordUser(null);
+            SessionLogin.setTeleponUser(null);
+            SessionLogin.setRoleUser(null);
+
+            LoginForm loginForm = new LoginForm();
+            loginForm.setVisible(true);
+            dispose();
+        } else {
+
+        }
+    }//GEN-LAST:event_btnlogoutMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1038,9 +1091,6 @@ public class DashboardForm extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(DashboardForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
-        
-        
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

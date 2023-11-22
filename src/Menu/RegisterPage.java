@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author Asus
@@ -22,29 +23,68 @@ public class RegisterPage extends javax.swing.JPanel {
      */
     public RegisterPage() {
         initComponents();
-        
+
         txtpassword.setText("Input password");
         txtpassword.setEchoChar((char) 0);
-        
+
         txtconfirm.setText("Confirm password");
         txtconfirm.setEchoChar((char) 0);
     }
-    
-    private void RegisterQuery(){
+
+    private void ValidasiPassword() {
+        String password = txtpassword.getText();
+        String confirm = txtconfirm.getText();
+
+        if (!confirm.equals(password)) {
+            txtconfirm.setForeground(new Color(240, 0, 0));
+            txtconfirm.requestFocus();
+        } else {
+            txtconfirm.setForeground(new Color(0, 0, 0));
+        }
+    }
+
+    private void ClearForm() {
+        txtname.setText("");
+        txttelepon.setText("");
+        txtconfirm.setText("");
+        txtemail.setText("");
+        txtpassword.setText("");
+    }
+
+    private void LoadRegister() {
+        if (txtname.getText().equals("Input name") || txtemail.getText().equals("Input email")
+                || txtpassword.getText().equals("Input password") 
+                || txtname.getText().equals("Input email") 
+                || txtname.getText().equals("Input email") 
+                || txtname.getText().equals("Input email")){
+            
+        }
+        if (txtname.getText().equals("") || txtemail.getText().equals("")
+                || txtpassword.getText().equals("") || txtconfirm.getText().equals("")
+                || txttelepon.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Please Input All Inputan");
+            txtname.requestFocus();
+        } else {
+            RegisterQuery();
+        }
+    }
+
+    private void RegisterQuery() {
         String role = "User";
-        int id=2;
-        try{
-            String sql = "INSERT INTO user VALUES ('"+id+"','"+txtname.getText()+"','"+txtemail.getText()+"','"+txtpassword.getText()+"','"+txttelepon.getText()+"','"+role+ "')";
-            java.sql.Connection conn = (Connection)Config.configDB();
+        int id = 2;
+        try {
+            String sql = "INSERT INTO user VALUES ('" + txtname.getText() + "','" + txtemail.getText() + "','" + txtpassword.getText() + "','" + txttelepon.getText() + "','" + role + "')";
+            java.sql.Connection conn = (Connection) Config.configDB();
             java.sql.PreparedStatement pstm = conn.prepareStatement(sql);
             pstm.execute();
             JOptionPane.showMessageDialog(null, "Register Succesfully.");
-            
-        }catch(HeadlessException | SQLException e){
+            ClearForm();
+        } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -68,6 +108,8 @@ public class RegisterPage extends javax.swing.JPanel {
         btnregister = new rojerusan.RSMaterialButtonRectangle();
         lbllink = new javax.swing.JLabel();
         linklogin = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         txtpassword = new javax.swing.JPasswordField();
         txtconfirm = new javax.swing.JPasswordField();
 
@@ -75,16 +117,20 @@ public class RegisterPage extends javax.swing.JPanel {
 
         RegisterPanel.setBackground(new java.awt.Color(255, 255, 255));
         RegisterPanel.setPreferredSize(new java.awt.Dimension(561, 818));
+        RegisterPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lbljudul.setFont(new java.awt.Font("Verdana", 1, 60)); // NOI18N
         lbljudul.setText("REGISTER");
+        RegisterPanel.add(lbljudul, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 22, -1, -1));
 
         lbldeskripsi.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         lbldeskripsi.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbldeskripsi.setText("Register now to unclock your exclusive access to contents.");
+        RegisterPanel.add(lbldeskripsi, new org.netbeans.lib.awtextra.AbsoluteConstraints(53, 109, 465, -1));
 
         lblname.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         lblname.setText("Name");
+        RegisterPanel.add(lblname, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 161, 163, -1));
 
         txtname.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         txtname.setForeground(new java.awt.Color(204, 204, 204));
@@ -100,9 +146,11 @@ public class RegisterPage extends javax.swing.JPanel {
                 txtnameFocusLost(evt);
             }
         });
+        RegisterPanel.add(txtname, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 189, 446, 48));
 
         lblemail.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         lblemail.setText("Email address");
+        RegisterPanel.add(lblemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 252, 163, -1));
 
         txtemail.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         txtemail.setForeground(new java.awt.Color(204, 204, 204));
@@ -123,15 +171,19 @@ public class RegisterPage extends javax.swing.JPanel {
                 txtemailActionPerformed(evt);
             }
         });
+        RegisterPanel.add(txtemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 280, 446, 48));
 
         lblpassword.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         lblpassword.setText("Password");
+        RegisterPanel.add(lblpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 343, 163, -1));
 
         lblconfirm.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         lblconfirm.setText("Confirm Password");
+        RegisterPanel.add(lblconfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 436, 163, -1));
 
         lbltelepon.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         lbltelepon.setText("No Telepon");
+        RegisterPanel.add(lbltelepon, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 532, 163, -1));
 
         txttelepon.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         txttelepon.setForeground(new java.awt.Color(204, 204, 204));
@@ -152,6 +204,7 @@ public class RegisterPage extends javax.swing.JPanel {
                 txtteleponActionPerformed(evt);
             }
         });
+        RegisterPanel.add(txttelepon, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 560, 446, 48));
 
         btnregister.setBackground(new java.awt.Color(204, 0, 0));
         btnregister.setText("REGISTER");
@@ -164,10 +217,12 @@ public class RegisterPage extends javax.swing.JPanel {
                 btnregisterActionPerformed(evt);
             }
         });
+        RegisterPanel.add(btnregister, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 649, 446, -1));
 
         lbllink.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
         lbllink.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbllink.setText("Do you have an Account?");
+        RegisterPanel.add(lbllink, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 747, -1, -1));
 
         linklogin.setFont(new java.awt.Font("Verdana", 1, 16)); // NOI18N
         linklogin.setForeground(new java.awt.Color(204, 0, 0));
@@ -179,6 +234,13 @@ public class RegisterPage extends javax.swing.JPanel {
                 linkloginMouseClicked(evt);
             }
         });
+        RegisterPanel.add(linklogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(349, 747, 101, -1));
+
+        jLabel2.setText("jLabel1");
+        RegisterPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 470, 70, 48));
+
+        jLabel1.setText("jLabel1");
+        RegisterPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 370, 70, 48));
 
         txtpassword.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         txtpassword.setForeground(new java.awt.Color(204, 204, 204));
@@ -192,6 +254,7 @@ public class RegisterPage extends javax.swing.JPanel {
                 txtpasswordFocusLost(evt);
             }
         });
+        RegisterPanel.add(txtpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 371, 446, 50));
 
         txtconfirm.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         txtconfirm.setForeground(new java.awt.Color(204, 204, 204));
@@ -205,76 +268,7 @@ public class RegisterPage extends javax.swing.JPanel {
                 txtconfirmFocusLost(evt);
             }
         });
-
-        javax.swing.GroupLayout RegisterPanelLayout = new javax.swing.GroupLayout(RegisterPanel);
-        RegisterPanel.setLayout(RegisterPanelLayout);
-        RegisterPanelLayout.setHorizontalGroup(
-            RegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(RegisterPanelLayout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(lbldeskripsi, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 43, Short.MAX_VALUE))
-            .addGroup(RegisterPanelLayout.createSequentialGroup()
-                .addGap(109, 109, 109)
-                .addComponent(lbljudul)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RegisterPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(RegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(lblconfirm, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lbltelepon, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblemail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblpassword, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblname, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txttelepon, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtconfirm, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtpassword, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtemail, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtname, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btnregister, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RegisterPanelLayout.createSequentialGroup()
-                        .addComponent(lbllink)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(linklogin, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58)))
-                .addGap(53, 53, 53))
-        );
-        RegisterPanelLayout.setVerticalGroup(
-            RegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(RegisterPanelLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(lbljudul)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbldeskripsi)
-                .addGap(34, 34, 34)
-                .addComponent(lblname)
-                .addGap(10, 10, 10)
-                .addComponent(txtname, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
-                .addComponent(lblemail)
-                .addGap(10, 10, 10)
-                .addComponent(txtemail, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
-                .addComponent(lblpassword)
-                .addGap(10, 10, 10)
-                .addComponent(txtpassword, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
-                .addComponent(lblconfirm)
-                .addGap(15, 15, 15)
-                .addComponent(txtconfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
-                .addComponent(lbltelepon)
-                .addGap(10, 10, 10)
-                .addComponent(txttelepon, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
-                .addComponent(btnregister, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addGroup(RegisterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbllink)
-                    .addComponent(linklogin))
-                .addContainerGap(46, Short.MAX_VALUE))
-        );
+        RegisterPanel.add(txtconfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 469, 446, 48));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -305,24 +299,24 @@ public class RegisterPage extends javax.swing.JPanel {
         LoginForm container = new LoginForm();
 
         javax.swing.JPanel loginPanel = container.getLoginPanel();
-        
-        this.removeAll();       
+
+        this.removeAll();
         this.repaint();
         this.revalidate();
         this.add(loginPanel);
         this.repaint();
         this.revalidate();
-      
+
     }//GEN-LAST:event_linkloginMouseClicked
 
     private void btnregisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregisterActionPerformed
         // TODO add your handling code here:;
-        RegisterQuery();
+        LoadRegister();
     }//GEN-LAST:event_btnregisterActionPerformed
 
     private void txtpasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtpasswordFocusGained
         // TODO add your handling code here:
-        if(txtpassword.getText().equals("Input password")){
+        if (txtpassword.getText().equals("Input password")) {
             txtpassword.setText("");
             txtpassword.setEchoChar('*');
             txtpassword.setForeground(Color.black);
@@ -331,16 +325,16 @@ public class RegisterPage extends javax.swing.JPanel {
 
     private void txtpasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtpasswordFocusLost
         // TODO add your handling code here:
-        if(txtpassword.getText().equals("")){
+        if (txtpassword.getText().equals("")) {
             txtpassword.setText("Input password");
             txtpassword.setEchoChar((char) 0);
-            txtpassword.setForeground(new Color(204,204,204));
+            txtpassword.setForeground(new Color(204, 204, 204));
         }
     }//GEN-LAST:event_txtpasswordFocusLost
 
     private void txtconfirmFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtconfirmFocusGained
         // TODO add your handling code here:
-        if(txtconfirm.getText().equals("Confirm password")){
+        if (txtconfirm.getText().equals("Confirm password")) {
             txtconfirm.setText("");
             txtconfirm.setEchoChar('*');
             txtconfirm.setForeground(Color.black);
@@ -349,16 +343,18 @@ public class RegisterPage extends javax.swing.JPanel {
 
     private void txtconfirmFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtconfirmFocusLost
         // TODO add your handling code here:
-        if(txtconfirm.getText().equals("")){
+        if (txtconfirm.getText().equals("")) {
             txtconfirm.setText("Confirm password");
             txtconfirm.setEchoChar((char) 0);
-            txtconfirm.setForeground(new Color(204,204,204));
+            txtconfirm.setForeground(new Color(204, 204, 204));
+        } else if (!txtconfirm.getText().equals("")) {
+            ValidasiPassword();
         }
     }//GEN-LAST:event_txtconfirmFocusLost
 
     private void txtnameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtnameFocusGained
         // TODO add your handling code here:
-        if(txtname.getText().equals("Input name")){
+        if (txtname.getText().equals("Input name")) {
             txtname.setText("");
             txtname.setForeground(Color.black);
         }
@@ -366,15 +362,15 @@ public class RegisterPage extends javax.swing.JPanel {
 
     private void txtnameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtnameFocusLost
         // TODO add your handling code here:
-        if(txtname.getText().equals("")){
+        if (txtname.getText().equals("")) {
             txtname.setText("Input name");
-            txtname.setForeground(new Color(204,204,204));
+            txtname.setForeground(new Color(204, 204, 204));
         }
     }//GEN-LAST:event_txtnameFocusLost
 
     private void txtemailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtemailFocusGained
         // TODO add your handling code here:
-        if(txtemail.getText().equals("Input email")){
+        if (txtemail.getText().equals("Input email")) {
             txtemail.setText("");
             txtemail.setForeground(Color.black);
         }
@@ -382,7 +378,7 @@ public class RegisterPage extends javax.swing.JPanel {
 
     private void txtteleponFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtteleponFocusGained
         // TODO add your handling code here:
-        if(txttelepon.getText().equals("Input telepon")){
+        if (txttelepon.getText().equals("Input telepon")) {
             txttelepon.setText("");
             txttelepon.setForeground(Color.black);
         }
@@ -390,17 +386,17 @@ public class RegisterPage extends javax.swing.JPanel {
 
     private void txtteleponFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtteleponFocusLost
         // TODO add your handling code here:
-        if(txttelepon.getText().equals("")){
+        if (txttelepon.getText().equals("")) {
             txttelepon.setText("Input telepon");
-            txttelepon.setForeground(new Color(204,204,204));
+            txttelepon.setForeground(new Color(204, 204, 204));
         }
     }//GEN-LAST:event_txtteleponFocusLost
 
     private void txtemailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtemailFocusLost
         // TODO add your handling code here:
-        if(txtemail.getText().equals("")){
+        if (txtemail.getText().equals("")) {
             txtemail.setText("Input email");
-            txtemail.setForeground(new Color(204,204,204));
+            txtemail.setForeground(new Color(204, 204, 204));
         }
     }//GEN-LAST:event_txtemailFocusLost
 
@@ -408,6 +404,8 @@ public class RegisterPage extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JPanel RegisterPanel;
     public rojerusan.RSMaterialButtonRectangle btnregister;
+    public javax.swing.JLabel jLabel1;
+    public javax.swing.JLabel jLabel2;
     public javax.swing.JLabel lblconfirm;
     public javax.swing.JLabel lbldeskripsi;
     public javax.swing.JLabel lblemail;

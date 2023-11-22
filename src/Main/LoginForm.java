@@ -175,6 +175,7 @@ public class LoginForm extends javax.swing.JFrame {
         txtemail.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         txtemail.setCaretColor(new java.awt.Color(93, 95, 239));
         txtemail.setDisabledTextColor(new java.awt.Color(93, 95, 239));
+        txtemail.setMargin(new java.awt.Insets(2, 10, 2, 10));
         txtemail.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtemailFocusGained(evt);
@@ -255,6 +256,7 @@ public class LoginForm extends javax.swing.JFrame {
         txtpassword.setForeground(new java.awt.Color(204, 204, 204));
         txtpassword.setText("Input password");
         txtpassword.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        txtpassword.setMargin(new java.awt.Insets(2, 10, 2, 10));
         txtpassword.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtpasswordFocusGained(evt);

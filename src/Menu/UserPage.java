@@ -5,6 +5,7 @@
 package Menu;
 
 import Koneksi.Config;
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -92,7 +93,16 @@ public class UserPage extends javax.swing.JPanel {
     }
      
     private void CreateQuery(){
-        
+        try{
+            String sql = "INSERT INTO user VALUES ('"+txtname.getText()+"','"+txtemail.getText()+"','"+txtpassword.getText()+"','"+txttelepon.getText()+ "')";
+            java.sql.Connection conn = (Connection)Config.configDB();
+            java.sql.PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.execute();
+            JOptionPane.showMessageDialog(null, "Register Succesfully.");
+            
+        }catch(HeadlessException | SQLException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }
     
     private void UpdateQuery(){
@@ -100,7 +110,7 @@ public class UserPage extends javax.swing.JPanel {
     }
     
     private void DeleteQuery(){
-        
+        String sql = "DELETE FROM user WHERE id_user =";
     }
     
     // selesai bagian CRUD
@@ -218,6 +228,7 @@ public class UserPage extends javax.swing.JPanel {
         jLabel7.setText("Role user");
         add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 330, 120, -1));
 
+        TableUser.setFont(new java.awt.Font("Verdana", 0, 16)); // NOI18N
         TableUser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -229,6 +240,7 @@ public class UserPage extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        TableUser.setRowHeight(38);
         jScrollPane1.setViewportView(TableUser);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 630, 1110, 310));
@@ -378,10 +390,11 @@ public class UserPage extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (BCancel.getText().equals("CLEAR")){
             ClearForm();
+            LockInputan();
         }else if (BCancel.getText().equals("CANCEL")){
+            LockInputan();
             ClearForm();
             ButtonEnabled();
-            OpenInputan();
             BCancel.setText("CLEAR");
         }
     }//GEN-LAST:event_BCancelActionPerformed
