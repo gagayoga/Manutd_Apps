@@ -25,45 +25,70 @@ public class LoginForm extends javax.swing.JFrame {
     public LoginForm() {
         initComponents();
         setLocationRelativeTo(null);
-        
+
         txtpassword.setText("Input password");
         txtpassword.setEchoChar((char) 0);
     }
-     
+
     public javax.swing.JPanel getLoginPanel() {
         return LoginPanel;
     }
-    
-    private void ClearForm(){
+
+    private void ClearForm() {
         txtemail.setText("");
         txtpassword.setText("");
     }
-    
-    private void LoadLogin(){
-        if(!txtemail.getText().equals("Input email") || !txtpassword.getText().equals("Input password")){
-            if (txtemail.getText().equals("") || txtpassword.getText().equals("")){
-            JOptionPane.showMessageDialog(this, "Please input Username or Password"
-                    , "Login Failed", JOptionPane.INFORMATION_MESSAGE);
-        }else{
-            LoginQuerry();
+
+    private void LoadLogin() {
+        if (!txtemail.getText().equals("Input email") || !txtpassword.getText().equals("Input password")) {
+            if (txtemail.getText().equals("") || txtpassword.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "Please input Username or Password",
+                        "Login Failed", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                LoginQuerry();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please input Username or Password",
+                    "Login Failed", JOptionPane.INFORMATION_MESSAGE);
         }
-        }else{
-            JOptionPane.showMessageDialog(this, "Please input Username or Password"
-                    , "Login Failed", JOptionPane.INFORMATION_MESSAGE);
-        }
-        
+
     }
-    
-    private void LoginQuerry () {
+
+    private void LoginQuerry() {
         String getname = null, getemail = null, getpassword = null, gettelepon = null, getrole = null;
-        try{
+        try {
             int no = 1;
-            String sql = "SELECT * FROM user WHERE email ='"+ txtemail.getText()+"' AND password='" + txtpassword.getText() +"'";
-            java.sql.Connection conn = (Connection)Config.configDB();
+            String sql = "SELECT * FROM user WHERE email ='" + txtemail.getText() + "' AND password='" + txtpassword.getText() + "'";
+            java.sql.Connection conn = (Connection) Config.configDB();
             java.sql.Statement stm = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             java.sql.ResultSet rslt = stm.executeQuery(sql);
-            
-            while (rslt.next()){
+
+//            if (rslt.next()) {
+//                String RoleUser;
+//
+//                RoleUser = rslt.getString("role");
+//                
+//                if(RoleUser.equals("Admin")){
+//                    
+//                    JOptionPane.showMessageDialog(this, "Login Succesfully, Welcome back " + getname,
+//                        "Login Succes", JOptionPane.INFORMATION_MESSAGE);
+//                    DashboardForm admin = new DashboardForm();
+//                    admin.setVisible(true);
+//                    this.dispose();
+//                    
+//                }else if (RoleUser.equals("User")){
+//                    JOptionPane.showMessageDialog(this, "Login Succesfully, Welcome back " + getname,
+//                        "Login Succes", JOptionPane.INFORMATION_MESSAGE);
+//                     DashboardForm admin = new DashboardForm();
+//                    admin.setVisible(true);
+//                    this.dispose();
+//                }else{
+//                     JOptionPane.showMessageDialog(this, "Akun anda berbahaya" + getname,
+//                        "Login Succes", JOptionPane.INFORMATION_MESSAGE);
+//                }
+//            }
+            while (rslt.next()) {
+
                 getname = rslt.getString("name");
                 getemail = txtemail.getText().toString();
                 getpassword = txtpassword.getText().toString();
@@ -72,33 +97,33 @@ public class LoginForm extends javax.swing.JFrame {
             }
             rslt.last();
             //mengecek jumlah baris pada hasil query jika datanya 1 maka login berhasil
-            if(rslt.getRow()==1){
-               SessionLogin.setNameUser(getname);
-               SessionLogin.setEmailUser(getemail);
-               SessionLogin.setPasswordUser(getpassword);
-               SessionLogin.setTeleponUser(gettelepon);
-               SessionLogin.setRoleUser(getrole);
-               
-                JOptionPane.showMessageDialog(this, "Login Succesfully, Welcome back " + getname 
-                , "Login Succes", JOptionPane.INFORMATION_MESSAGE);
-                
+            if (rslt.getRow() == 1) {
+                SessionLogin.setNameUser(getname);
+                SessionLogin.setEmailUser(getemail);
+                SessionLogin.setPasswordUser(getpassword);
+                SessionLogin.setTeleponUser(gettelepon);
+                SessionLogin.setRoleUser(getrole);
+
+                JOptionPane.showMessageDialog(this, "Login Succesfully, Welcome back " + getname,
+                        "Login Succes", JOptionPane.INFORMATION_MESSAGE);
+
                 DashboardForm formdashboard = new DashboardForm();
                 formdashboard.setVisible(true);
                 ClearForm();
-                
+
                 this.dispose();
-            }else{
-                JOptionPane.showMessageDialog(this, "Login Failed, Please Check Your Username or Password" 
-                , "Login Failed", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Login Failed, Please Check Your Username or Password",
+                        "Login Failed", JOptionPane.ERROR_MESSAGE);
                 txtemail.requestFocus();
                 txtemail.setText("");
                 txtpassword.setText("");
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.print("Eror : " + e.getMessage());
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -372,7 +397,7 @@ public class LoginForm extends javax.swing.JFrame {
         MainPanel.removeAll();
         MainPanel.repaint();
         MainPanel.revalidate();
-        
+
         RegisterPage register = new RegisterPage();
         MainPanel.add(register);
         MainPanel.repaint();
@@ -409,23 +434,23 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void txtemailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtemailFocusGained
         // TODO add your handling code here:
-        if(txtemail.getText().equals("Input email")){
+        if (txtemail.getText().equals("Input email")) {
             txtemail.setText("");
-             txtemail.setForeground(Color.black);
+            txtemail.setForeground(Color.black);
         }
     }//GEN-LAST:event_txtemailFocusGained
 
     private void txtemailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtemailFocusLost
         // TODO add your handling code here:
-        if(txtemail.getText().equals("")){
+        if (txtemail.getText().equals("")) {
             txtemail.setText("Input email");
-            txtemail.setForeground(new Color(204,204,204));
+            txtemail.setForeground(new Color(204, 204, 204));
         }
     }//GEN-LAST:event_txtemailFocusLost
 
     private void txtpasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtpasswordFocusGained
         // TODO add your handling code here:
-         if(txtpassword.getText().equals("Input password")){
+        if (txtpassword.getText().equals("Input password")) {
             txtpassword.setText("");
             txtpassword.setEchoChar('*');
             txtpassword.setForeground(Color.black);
@@ -434,10 +459,10 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void txtpasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtpasswordFocusLost
         // TODO add your handling code here:
-        if(txtpassword.getText().equals("")){
+        if (txtpassword.getText().equals("")) {
             txtpassword.setText("Input password");
             txtpassword.setEchoChar((char) 0);
-            txtpassword.setForeground(new Color(204,204,204));
+            txtpassword.setForeground(new Color(204, 204, 204));
         }
     }//GEN-LAST:event_txtpasswordFocusLost
 

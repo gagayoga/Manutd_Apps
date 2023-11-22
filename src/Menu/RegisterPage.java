@@ -53,20 +53,22 @@ public class RegisterPage extends javax.swing.JPanel {
 
     private void LoadRegister() {
         if (txtname.getText().equals("Input name") || txtemail.getText().equals("Input email")
-                || txtpassword.getText().equals("Input password") 
-                || txtname.getText().equals("Input email") 
-                || txtname.getText().equals("Input email") 
-                || txtname.getText().equals("Input email")){
-            
-        }
-        if (txtname.getText().equals("") || txtemail.getText().equals("")
-                || txtpassword.getText().equals("") || txtconfirm.getText().equals("")
-                || txttelepon.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Please Input All Inputan");
-            txtname.requestFocus();
+                || txtpassword.getText().equals("Input password")
+                || txtconfirm.getText().equals("Confirm password")
+                || txttelepon.getText().equals("Input telepon")) {
+            if (txtname.getText().equals("") || txtemail.getText().equals("")
+                    || txtpassword.getText().equals("") || txtconfirm.getText().equals("")
+                    || txttelepon.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Please Input All Inputan");
+                txtname.requestFocus();
+            } else {
+                RegisterQuery();
+            }
         } else {
-            RegisterQuery();
+            JOptionPane.showMessageDialog(this, "Please input all here",
+                    "Register Failed", JOptionPane.INFORMATION_MESSAGE);
         }
+
     }
 
     private void RegisterQuery() {
@@ -236,11 +238,11 @@ public class RegisterPage extends javax.swing.JPanel {
         });
         RegisterPanel.add(linklogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(349, 747, 101, -1));
 
-        jLabel2.setText("jLabel1");
-        RegisterPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 470, 70, 48));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Icons/IconShowPassword.png"))); // NOI18N
+        RegisterPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 470, 50, 48));
 
-        jLabel1.setText("jLabel1");
-        RegisterPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 370, 70, 48));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Icons/IconShowPassword.png"))); // NOI18N
+        RegisterPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 370, 40, 48));
 
         txtpassword.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         txtpassword.setForeground(new java.awt.Color(204, 204, 204));

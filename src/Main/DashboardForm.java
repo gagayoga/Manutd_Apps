@@ -14,7 +14,9 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
@@ -124,10 +126,10 @@ public class DashboardForm extends javax.swing.JFrame {
         model.addColumn("Role.");
 
         try {
-            String sql = "SELECT * FROM User";
-            java.sql.Connection conn = (Connection) Config.configDB();
-            java.sql.Statement stm = conn.createStatement();
-            java.sql.ResultSet res = stm.executeQuery(sql);
+            String sql = "SELECT * FROM user ORDER BY id_user DESC LIMIT 7";
+            Connection conn = (Connection) Config.configDB();
+            Statement stm = conn.createStatement();
+            ResultSet res = stm.executeQuery(sql);
 
             while (res.next()) {
                 model.addRow(new Object[]{res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5)
@@ -264,7 +266,7 @@ public class DashboardForm extends javax.swing.JFrame {
 
         PanelButton.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon/IconDashboard.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon Menu/HomeButton.png"))); // NOI18N
 
         btndashboard.setFont(new java.awt.Font("Verdana", 1, 17)); // NOI18N
         btndashboard.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -289,7 +291,7 @@ public class DashboardForm extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btndashboard, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE))
+                .addComponent(btndashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelButtonLayout.setVerticalGroup(
             PanelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -303,7 +305,7 @@ public class DashboardForm extends javax.swing.JFrame {
 
         PanelLogout.setBackground(new java.awt.Color(240, 0, 0));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon/IconNews.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon Menu/IconLogout.png"))); // NOI18N
 
         btnlogout.setFont(new java.awt.Font("Verdana", 1, 17)); // NOI18N
         btnlogout.setForeground(new java.awt.Color(255, 255, 255));
@@ -360,7 +362,7 @@ public class DashboardForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon/IconUser.png"))); // NOI18N
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon Menu/IconUser.png"))); // NOI18N
 
         javax.swing.GroupLayout PanelBtnUserLayout = new javax.swing.GroupLayout(PanelBtnUser);
         PanelBtnUser.setLayout(PanelBtnUserLayout);
@@ -370,7 +372,7 @@ public class DashboardForm extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jLabel17)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnuser, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE))
+                .addComponent(btnuser, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE))
         );
         PanelBtnUserLayout.setVerticalGroup(
             PanelBtnUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -400,7 +402,7 @@ public class DashboardForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon/IconPlayer.png"))); // NOI18N
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon Menu/IconPlayer.png"))); // NOI18N
 
         javax.swing.GroupLayout PanelBtnPlayerLayout = new javax.swing.GroupLayout(PanelBtnPlayer);
         PanelBtnPlayer.setLayout(PanelBtnPlayerLayout);
@@ -410,7 +412,7 @@ public class DashboardForm extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jLabel18)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnplayer, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE))
+                .addComponent(btnplayer, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE))
         );
         PanelBtnPlayerLayout.setVerticalGroup(
             PanelBtnPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -440,7 +442,7 @@ public class DashboardForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon/IconStatistik.png"))); // NOI18N
+        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon Menu/IconStatistik.png"))); // NOI18N
 
         javax.swing.GroupLayout PanelBtnStatistikLayout = new javax.swing.GroupLayout(PanelBtnStatistik);
         PanelBtnStatistik.setLayout(PanelBtnStatistikLayout);
@@ -450,7 +452,7 @@ public class DashboardForm extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnstatistik, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
+                .addComponent(btnstatistik, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
         );
         PanelBtnStatistikLayout.setVerticalGroup(
             PanelBtnStatistikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -480,7 +482,7 @@ public class DashboardForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon/IconNews.png"))); // NOI18N
+        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon Menu/IconNews.png"))); // NOI18N
 
         javax.swing.GroupLayout PanelBtnNewsLayout = new javax.swing.GroupLayout(PanelBtnNews);
         PanelBtnNews.setLayout(PanelBtnNewsLayout);
@@ -490,7 +492,7 @@ public class DashboardForm extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnnews, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE))
+                .addComponent(btnnews, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE))
         );
         PanelBtnNewsLayout.setVerticalGroup(
             PanelBtnNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -788,6 +790,7 @@ public class DashboardForm extends javax.swing.JFrame {
         ));
         TableUser.setGridColor(new java.awt.Color(204, 204, 204));
         TableUser.setRowHeight(45);
+        TableUser.setSelectionBackground(new java.awt.Color(204, 0, 0));
         TableUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableUserMouseClicked(evt);
