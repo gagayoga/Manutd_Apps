@@ -10,7 +10,9 @@ import java.awt.HeadlessException;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Random;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -18,17 +20,17 @@ import javax.swing.JOptionPane;
  */
 public class RegisterPage extends javax.swing.JPanel {
 
+    private int userIdCounter = 1;
+    private String kodeUser;
+
     /**
      * Creates new form RegisterPage
      */
     public RegisterPage() {
         initComponents();
 
-        txtpassword.setText("Input password");
-        txtpassword.setEchoChar((char) 0);
-
-        txtconfirm.setText("Confirm password");
-        txtconfirm.setEchoChar((char) 0);
+        KodeUser();
+        txtname.requestFocus();
     }
 
     private void ValidasiPassword() {
@@ -52,35 +54,47 @@ public class RegisterPage extends javax.swing.JPanel {
     }
 
     private void LoadRegister() {
-        if (txtname.getText().equals("Input name") || txtemail.getText().equals("Input email")
-                || txtpassword.getText().equals("Input password")
-                || txtconfirm.getText().equals("Confirm password")
-                || txttelepon.getText().equals("Input telepon")) {
-            if (txtname.getText().equals("") || txtemail.getText().equals("")
-                    || txtpassword.getText().equals("") || txtconfirm.getText().equals("")
-                    || txttelepon.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "Please Input All Inputan");
-                txtname.requestFocus();
-            } else {
-                RegisterQuery();
-            }
+        if (txtname.getText().equals("") || txtemail.getText().equals("")
+                || txtpassword.getText().equals("") || txtconfirm.getText().equals("")
+                || txttelepon.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Please Input All Inputan");
+            txtname.requestFocus();
         } else {
-            JOptionPane.showMessageDialog(this, "Please input all here",
-                    "Register Failed", JOptionPane.INFORMATION_MESSAGE);
+            RegisterQuery();
         }
 
     }
 
+    private void KodeUser() {
+        int randomNum = new Random().nextInt(900) + 100;
+
+        String userId = "USR" + String.format("%03d", randomNum);
+
+        kodeUser = userId;
+
+        userIdCounter++;
+    }
+
     private void RegisterQuery() {
         String role = "User";
-        int id = 2;
         try {
-            String sql = "INSERT INTO user VALUES ('" + txtname.getText() + "','" + txtemail.getText() + "','" + txtpassword.getText() + "','" + txttelepon.getText() + "','" + role + "')";
+            String sql = "INSERT INTO user VALUES ('" + kodeUser + "','" + txtname.getText() + "','" + txtemail.getText() + "','" + txtpassword.getText() + "','" + txttelepon.getText() + "','" + role + "')";
             java.sql.Connection conn = (Connection) Config.configDB();
             java.sql.PreparedStatement pstm = conn.prepareStatement(sql);
             pstm.execute();
             JOptionPane.showMessageDialog(null, "Register Succesfully.");
             ClearForm();
+
+            LoginForm container = new LoginForm();
+
+            JPanel loginPanel = container.getLoginPanel();
+
+            this.removeAll();
+            this.repaint();
+            this.revalidate();
+            this.add(loginPanel);
+            this.repaint();
+            this.revalidate();
         } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
             System.out.println(e.getMessage());
@@ -110,8 +124,6 @@ public class RegisterPage extends javax.swing.JPanel {
         btnregister = new rojerusan.RSMaterialButtonRectangle();
         lbllink = new javax.swing.JLabel();
         linklogin = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         txtpassword = new javax.swing.JPasswordField();
         txtconfirm = new javax.swing.JPasswordField();
 
@@ -135,11 +147,10 @@ public class RegisterPage extends javax.swing.JPanel {
         RegisterPanel.add(lblname, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 161, 163, -1));
 
         txtname.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        txtname.setForeground(new java.awt.Color(204, 204, 204));
-        txtname.setText("Input name");
         txtname.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         txtname.setCaretColor(new java.awt.Color(93, 95, 239));
         txtname.setDisabledTextColor(new java.awt.Color(93, 95, 239));
+        txtname.setMargin(new java.awt.Insets(2, 10, 2, 10));
         txtname.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtnameFocusGained(evt);
@@ -155,11 +166,10 @@ public class RegisterPage extends javax.swing.JPanel {
         RegisterPanel.add(lblemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 252, 163, -1));
 
         txtemail.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        txtemail.setForeground(new java.awt.Color(204, 204, 204));
-        txtemail.setText("Input email");
         txtemail.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         txtemail.setCaretColor(new java.awt.Color(93, 95, 239));
         txtemail.setDisabledTextColor(new java.awt.Color(93, 95, 239));
+        txtemail.setMargin(new java.awt.Insets(2, 10, 2, 10));
         txtemail.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtemailFocusGained(evt);
@@ -188,11 +198,10 @@ public class RegisterPage extends javax.swing.JPanel {
         RegisterPanel.add(lbltelepon, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 532, 163, -1));
 
         txttelepon.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        txttelepon.setForeground(new java.awt.Color(204, 204, 204));
-        txttelepon.setText("Input telepon");
         txttelepon.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         txttelepon.setCaretColor(new java.awt.Color(93, 95, 239));
         txttelepon.setDisabledTextColor(new java.awt.Color(93, 95, 239));
+        txttelepon.setMargin(new java.awt.Insets(2, 10, 2, 10));
         txttelepon.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtteleponFocusGained(evt);
@@ -238,16 +247,9 @@ public class RegisterPage extends javax.swing.JPanel {
         });
         RegisterPanel.add(linklogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(349, 747, 101, -1));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Icons/IconShowPassword.png"))); // NOI18N
-        RegisterPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 470, 50, 48));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Icons/IconShowPassword.png"))); // NOI18N
-        RegisterPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 370, 40, 48));
-
         txtpassword.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        txtpassword.setForeground(new java.awt.Color(204, 204, 204));
-        txtpassword.setText("Input password");
         txtpassword.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        txtpassword.setMargin(new java.awt.Insets(2, 10, 2, 10));
         txtpassword.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtpasswordFocusGained(evt);
@@ -259,9 +261,8 @@ public class RegisterPage extends javax.swing.JPanel {
         RegisterPanel.add(txtpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 371, 446, 50));
 
         txtconfirm.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        txtconfirm.setForeground(new java.awt.Color(204, 204, 204));
-        txtconfirm.setText("Confirm password");
         txtconfirm.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        txtconfirm.setMargin(new java.awt.Insets(2, 10, 2, 10));
         txtconfirm.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtconfirmFocusGained(evt);
@@ -300,7 +301,7 @@ public class RegisterPage extends javax.swing.JPanel {
         // TODO add your handling code here:
         LoginForm container = new LoginForm();
 
-        javax.swing.JPanel loginPanel = container.getLoginPanel();
+        JPanel loginPanel = container.getLoginPanel();
 
         this.removeAll();
         this.repaint();
@@ -318,96 +319,50 @@ public class RegisterPage extends javax.swing.JPanel {
 
     private void txtpasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtpasswordFocusGained
         // TODO add your handling code here:
-        if (txtpassword.getText().equals("Input password")) {
-            txtpassword.setText("");
-            txtpassword.setEchoChar('*');
-            txtpassword.setForeground(Color.black);
-        }
     }//GEN-LAST:event_txtpasswordFocusGained
 
     private void txtpasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtpasswordFocusLost
         // TODO add your handling code here:
-        if (txtpassword.getText().equals("")) {
-            txtpassword.setText("Input password");
-            txtpassword.setEchoChar((char) 0);
-            txtpassword.setForeground(new Color(204, 204, 204));
-        }
     }//GEN-LAST:event_txtpasswordFocusLost
 
     private void txtconfirmFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtconfirmFocusGained
         // TODO add your handling code here:
-        if (txtconfirm.getText().equals("Confirm password")) {
-            txtconfirm.setText("");
-            txtconfirm.setEchoChar('*');
-            txtconfirm.setForeground(Color.black);
-        }
+        
     }//GEN-LAST:event_txtconfirmFocusGained
 
     private void txtconfirmFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtconfirmFocusLost
         // TODO add your handling code here:
-        if (txtconfirm.getText().equals("")) {
-            txtconfirm.setText("Confirm password");
-            txtconfirm.setEchoChar((char) 0);
-            txtconfirm.setForeground(new Color(204, 204, 204));
-        } else if (!txtconfirm.getText().equals("")) {
-            ValidasiPassword();
-        }
+        ValidasiPassword();
     }//GEN-LAST:event_txtconfirmFocusLost
 
     private void txtnameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtnameFocusGained
         // TODO add your handling code here:
-        if (txtname.getText().equals("Input name")) {
-            txtname.setText("");
-            txtname.setForeground(Color.black);
-        }
     }//GEN-LAST:event_txtnameFocusGained
 
     private void txtnameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtnameFocusLost
         // TODO add your handling code here:
-        if (txtname.getText().equals("")) {
-            txtname.setText("Input name");
-            txtname.setForeground(new Color(204, 204, 204));
-        }
     }//GEN-LAST:event_txtnameFocusLost
 
     private void txtemailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtemailFocusGained
         // TODO add your handling code here:
-        if (txtemail.getText().equals("Input email")) {
-            txtemail.setText("");
-            txtemail.setForeground(Color.black);
-        }
     }//GEN-LAST:event_txtemailFocusGained
 
     private void txtteleponFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtteleponFocusGained
         // TODO add your handling code here:
-        if (txttelepon.getText().equals("Input telepon")) {
-            txttelepon.setText("");
-            txttelepon.setForeground(Color.black);
-        }
     }//GEN-LAST:event_txtteleponFocusGained
 
     private void txtteleponFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtteleponFocusLost
         // TODO add your handling code here:
-        if (txttelepon.getText().equals("")) {
-            txttelepon.setText("Input telepon");
-            txttelepon.setForeground(new Color(204, 204, 204));
-        }
     }//GEN-LAST:event_txtteleponFocusLost
 
     private void txtemailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtemailFocusLost
         // TODO add your handling code here:
-        if (txtemail.getText().equals("")) {
-            txtemail.setText("Input email");
-            txtemail.setForeground(new Color(204, 204, 204));
-        }
     }//GEN-LAST:event_txtemailFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JPanel RegisterPanel;
     public rojerusan.RSMaterialButtonRectangle btnregister;
-    public javax.swing.JLabel jLabel1;
-    public javax.swing.JLabel jLabel2;
     public javax.swing.JLabel lblconfirm;
     public javax.swing.JLabel lbldeskripsi;
     public javax.swing.JLabel lblemail;
