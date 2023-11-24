@@ -873,7 +873,9 @@ public class DashboardForm extends javax.swing.JFrame {
     private void btndashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btndashboardMouseClicked
         // TODO add your handling code here:
         MainPanel.removeAll();
-
+        MainPanel.repaint();
+        MainPanel.revalidate();
+        
         MainPanel.add(PanelDashboard);
         MainPanel.repaint();
         MainPanel.revalidate();
@@ -981,7 +983,7 @@ public class DashboardForm extends javax.swing.JFrame {
         MainPanel.removeAll();
         MainPanel.repaint();
         MainPanel.revalidate();
-
+        
         NewsPage panelNews = new NewsPage();
         MainPanel.add(panelNews);
         MainPanel.repaint();

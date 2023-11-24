@@ -222,7 +222,6 @@ public class UserPage extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableUser = new javax.swing.JTable();
-        BSearch = new rojerusan.RSMaterialButtonRectangle();
         BCreate = new rojerusan.RSMaterialButtonRectangle();
         BUpdate = new rojerusan.RSMaterialButtonRectangle();
         BDelete = new rojerusan.RSMaterialButtonRectangle();
@@ -297,8 +296,14 @@ public class UserPage extends javax.swing.JPanel {
         add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 230, 140, -1));
 
         txtsearch.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        txtsearch.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Search User"));
         txtsearch.setMargin(new java.awt.Insets(2, 10, 2, 10));
-        add(txtsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 540, 790, 50));
+        txtsearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtsearchKeyReleased(evt);
+            }
+        });
+        add(txtsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 540, 1040, 60));
 
         jLabel7.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel7.setText("Role user");
@@ -328,19 +333,7 @@ public class UserPage extends javax.swing.JPanel {
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 630, 1110, 310));
 
-        BSearch.setBackground(new java.awt.Color(204, 204, 204));
-        BSearch.setForeground(new java.awt.Color(0, 0, 0));
-        BSearch.setText("SEARCH");
-        BSearch.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
-        BSearch.setType(rojerusan.RSMaterialButtonRectangle.Type.RAISED);
-        BSearch.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BSearchMouseClicked(evt);
-            }
-        });
-        add(BSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 540, 220, 50));
-
-        BCreate.setBackground(new java.awt.Color(0, 153, 0));
+        BCreate.setBackground(new java.awt.Color(71, 71, 71));
         BCreate.setText("CREATE");
         BCreate.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
         BCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -490,10 +483,8 @@ public class UserPage extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (BCancel.getText().equals("CLEAR")) {
             ClearForm();
-            LockInputan();
         } else if (BCancel.getText().equals("CANCEL")) {
             LockInputan();
-            ClearForm();
             ButtonEnabled();
             BCancel.setText("CLEAR");
         }
@@ -529,21 +520,16 @@ public class UserPage extends javax.swing.JPanel {
         KodeUser();
     }//GEN-LAST:event_jLabel8MouseClicked
 
-    private void BSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BSearchMouseClicked
+    private void txtsearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtsearchKeyReleased
         // TODO add your handling code here:
-        if (txtsearch.getText().equals("")){
-             JOptionPane.showMessageDialog(null, "Please Input Search");
-        }else{
-            SearchQuery();
-        }
-    }//GEN-LAST:event_BSearchMouseClicked
+         SearchQuery();
+    }//GEN-LAST:event_txtsearchKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private rojerusan.RSMaterialButtonRectangle BCancel;
     private rojerusan.RSMaterialButtonRectangle BCreate;
     private rojerusan.RSMaterialButtonRectangle BDelete;
-    private rojerusan.RSMaterialButtonRectangle BSearch;
     private rojerusan.RSMaterialButtonRectangle BUpdate;
     private javax.swing.JTable TableUser;
     private javax.swing.JLabel jLabel1;

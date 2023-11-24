@@ -65,8 +65,8 @@ public class PlayerPage extends javax.swing.JPanel {
         txtname.setText(null);
         txtnoplayer.setText(null);
         txtnegara.setText(null);
-        txtkategori.setSelectedIndex(0);
-        txtposition.setSelectedIndex(0);
+        txtkategori.setSelectedIndex(1);
+        txtposition.setSelectedIndex(1);
         ImagePemain.setIcon(null);
         Lblimage.setText(null);
     }
@@ -125,10 +125,33 @@ public class PlayerPage extends javax.swing.JPanel {
     int kode = 2001;
 
     private void KodePlayer() {
-        String kodePlayer = "MUN" + kode;
-        kode++;
-
-        txtkode.setText(kodePlayer);
+        try{
+            String sql = "SELECT * FROM player ORDER BY id_player DESC";
+            Connection conn = (Connection) Config.configDB();
+            Statement stm = conn.createStatement();
+            ResultSet res = stm.executeQuery(sql);
+            
+            if (res.next()){
+                String NoPlayer = res.getString("id_player").substring(7);
+                String IdPlayer = "" + (Integer.parseInt(NoPlayer)+1);
+                String Zero = "";
+                
+                if(IdPlayer.length()==1){
+                    Zero = "000";
+                }else if (IdPlayer.length()==2){
+                    Zero = "00";
+                }else if (IdPlayer.length()==3){
+                    Zero = "0";
+                }else if (IdPlayer.length()==4){
+                    Zero = "";
+                }
+                txtkode.setText("PLAYER-" + Zero + IdPlayer);
+            }else{
+                txtkode.setText("PLAYER-001");
+            }
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
     }
     // bagian CRUD
 
@@ -185,7 +208,7 @@ public class PlayerPage extends javax.swing.JPanel {
             pstm.setString(7, gambar);
             pstm.executeUpdate();
 
-            JOptionPane.showMessageDialog(null, "Create Data User Succesfully.");
+            JOptionPane.showMessageDialog(null, "Create Data Player Succesfully.");
             LockInputan();
             ShowTable();
             ClearForm();
@@ -222,13 +245,13 @@ public class PlayerPage extends javax.swing.JPanel {
             pstm.setString(7, kodeplayer);
             pstm.executeUpdate();
 
-            JOptionPane.showMessageDialog(null, "Update Data Berhasil..");
+            JOptionPane.showMessageDialog(null, "Update Data " + nameplayer + "Succesfully");
+            ClearForm();
         } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
         LockInputan();
         ShowTable();
-        ClearForm();
         ButtonEnabled();
         KodePlayer();
     }
@@ -245,13 +268,13 @@ public class PlayerPage extends javax.swing.JPanel {
             pstm.setString(1, kodeplayer);
             pstm.executeUpdate();
 
-            JOptionPane.showMessageDialog(null, "Delete Data Berhasil..");
+            JOptionPane.showMessageDialog(null, "Delete Data " + kodeplayer + " Succesfully");
+            ClearForm();
         } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
         LockInputan();
         ShowTable();
-        ClearForm();
         ButtonEnabled();
         KodePlayer();
     }
@@ -333,7 +356,7 @@ public class PlayerPage extends javax.swing.JPanel {
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 600, 1110, 380));
 
-        BCreate.setBackground(new java.awt.Color(0, 153, 0));
+        BCreate.setBackground(new java.awt.Color(71, 71, 71));
         BCreate.setText("CREATE");
         BCreate.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
         BCreate.addActionListener(new java.awt.event.ActionListener() {

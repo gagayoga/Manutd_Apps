@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,6 +25,7 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
     
     ArrayList<Player> arrPlayer = new ArrayList<>();
     String nama;
+    private int userIdCounter = 1;
 
     /**
      * Creates new form StatistikPlayerPage
@@ -34,10 +36,17 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
         LockInputan();
         ButtonEnabled();
         ShowTable();
-        KodeStatistik();
         ShowDataPlayer();
+        ButtonName();
     }
 
+    private void ButtonName() {
+        BCreate.setText("CREATE");
+        BUpdate.setText("UPDATE");
+        BDelete.setText("DELETE");
+        BCancel.setText("CLEAR");
+    }
+      
     private void LockInputan() {
         txtkode.setEnabled(false);
         txtplayer.setEnabled(false);
@@ -64,21 +73,22 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
     int kode = 5000;
 
     private void KodeStatistik() {
-        String kodeStatistik = "STA" + kode;
-        kode++;
+        int randomNum = new Random().nextInt(900) + 100;
 
-        txtkode.setText(kodeStatistik);
+        String userId = "STATS" + String.format("%03d", randomNum);
+        txtkode.setText(userId);
+        userIdCounter++;
     }
 
     private void ClearForm() {
-        txtplayer.setSelectedItem(null);
-        txtname.setText(null);
-        txtappea.setText(null);
-        txtgoal.setText(null);
-        txtasist.setText(null);
-        txtyellow.setText(null);
-        txtred.setText(null);
-        txtshoot.setText(null);
+        txtkode.setText("");
+        txtname.setText("");
+        txtappea.setText("");
+        txtgoal.setText("");
+        txtasist.setText("");
+        txtyellow.setText("");
+        txtred.setText("");
+        txtshoot.setText("");
     }
 
     private void ButtonEnabled() {
@@ -91,7 +101,10 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
     private void ShowNamePlayer(){
         String kode = txtplayer.getSelectedItem().toString().trim();
         
-        try {
+        if(kode.equals("")){
+             txtname.setText("");
+        }else{
+            try {
             String sql = "SELECT * FROM player WHERE id_player ='"+kode+"'";
             Connection conn = (Connection) Config.configDB();
             Statement stm = conn.createStatement();
@@ -99,10 +112,11 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
             
             while(res.next()){
                nama  = res.getString("name");
-               txtname.setText(nama);
             }
+            txtname.setText(nama);
         } catch (SQLException e) {
             System.out.println("Error : " + e.getMessage());
+        }
         }
     }
     
@@ -174,7 +188,7 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
         shoot = txtshoot.getText().trim();
 
         try {
-            String sql = "INSERT INTO player (id_statistik, id_player ,appearances, gol, asist, yellow_card, red_card, shotting) VALUES (?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO statistik_player (id_statistik, id_player ,appearances, gol, asist, yellow_card, red_card, shotting) VALUES (?,?,?,?,?,?,?,?)";
             Connection conn = (Connection) Config.configDB();
             PreparedStatement pstm = conn.prepareStatement(sql);
             pstm.setString(1, kodestatistik);
@@ -184,15 +198,14 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
             pstm.setString(5, asist);
             pstm.setString(6, yellow);
             pstm.setString(7, card);
-            pstm.setString(7, shoot);
+            pstm.setString(8, shoot);
             pstm.executeUpdate();
 
-            JOptionPane.showMessageDialog(null, "Create Data User Succesfully.");
+            JOptionPane.showMessageDialog(null, "Create Data Satatistik " + txtname.getText().toString() +" Succesfully.");
             LockInputan();
             ShowTable();
             ClearForm();
             ButtonEnabled();
-            KodeStatistik();
         } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
             System.out.println(e.getMessage());
@@ -226,15 +239,14 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
             pstm.setString(8, kodestatistik);
             pstm.executeUpdate();
 
-            JOptionPane.showMessageDialog(null, "Update Data Berhasil..");
+            JOptionPane.showMessageDialog(null, "Update Data " + kodeplayer + " Succesfully");
+            ClearForm();
         } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
         LockInputan();
         ShowTable();
-        ClearForm();
         ButtonEnabled();
-        KodeStatistik();
     }
 
     private void DeleteQuery() {
@@ -249,15 +261,14 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
             pstm.setString(1, kodeplayer);
             pstm.executeUpdate();
 
-            JOptionPane.showMessageDialog(null, "Delete Data Berhasil..");
+            JOptionPane.showMessageDialog(null, "Delete Data " + kodeplayer + " Succesfully");
+            ClearForm();
         } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
         LockInputan();
         ShowTable();
-        ClearForm();
         ButtonEnabled();
-        KodeStatistik();
     }
 
     // selesai bagian CRUD
@@ -296,6 +307,8 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
         txtred = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         txtshoot = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -342,7 +355,7 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 590, 1110, 350));
 
-        BCreate.setBackground(new java.awt.Color(0, 153, 0));
+        BCreate.setBackground(new java.awt.Color(71, 71, 71));
         BCreate.setText("CREATE");
         BCreate.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
         BCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -388,7 +401,7 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
 
         txtkode.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         txtkode.setMargin(new java.awt.Insets(2, 10, 2, 10));
-        add(txtkode, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 320, 50));
+        add(txtkode, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 250, 50));
 
         jLabel7.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel7.setText("Kode Player");
@@ -477,6 +490,19 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
         txtshoot.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         txtshoot.setMargin(new java.awt.Insets(2, 10, 2, 10));
         add(txtshoot, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 370, 300, 50));
+
+        jPanel2.setBackground(new java.awt.Color(204, 51, 0));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon Menu/IconCreateCode.png"))); // NOI18N
+        jLabel15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel15MouseClicked(evt);
+            }
+        });
+        jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 0, -1, 50));
+
+        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 170, 60, 50));
     }// </editor-fold>//GEN-END:initComponents
 
     private void BCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BCreateActionPerformed
@@ -565,7 +591,6 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
         if (BCancel.getText().equals("CLEAR")) {
             ClearForm();
         } else if (BCancel.getText().equals("CANCEL")) {
-            ClearForm();
             ButtonEnabled();
             OpenInputan();
             BCancel.setText("CLEAR");
@@ -624,6 +649,11 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
         ShowNamePlayer();
     }//GEN-LAST:event_txtplayerItemStateChanged
 
+    private void jLabel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MouseClicked
+        // TODO add your handling code here:
+        KodeStatistik();
+    }//GEN-LAST:event_jLabel15MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private rojerusan.RSMaterialButtonRectangle BCancel;
@@ -637,11 +667,13 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtappea;
     private javax.swing.JTextField txtasist;

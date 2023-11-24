@@ -4,11 +4,21 @@
  */
 package Main.User;
 
+import Koneksi.Config;
+import Main.User.Component.CardPlayer;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
 /**
@@ -36,6 +46,36 @@ public class DashboardFormUser extends javax.swing.JFrame {
         });
 
         timer.start();
+        
+        LoadNews();
+
+    }
+    
+    private void LoadNews(){
+        String idNews, judulNews, deskripsiNews, kategoriNews, imageNews;
+        PanelCard.removeAll();
+         try {
+            String sql = "SELECT * FROM news ORDER BY id_berita DESC LIMIT 3";
+            Connection conn = (Connection) Config.configDB();
+            Statement stm = conn.createStatement();
+            ResultSet res = stm.executeQuery(sql);
+            
+            while(res.next()){
+                idNews = res.getString("id_berita");
+                judulNews = res.getString("judul_berita");
+                deskripsiNews = res.getString("deskripsi");
+                kategoriNews = res.getString("kategori_berita");
+                imageNews = res.getString("image");
+                
+                CardPlayer cardplayer = new CardPlayer(idNews, judulNews, deskripsiNews, kategoriNews, imageNews);
+                PanelCard.add(cardplayer);
+                cardplayer.setPreferredSize(new Dimension(410, 240));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error : " + e.getMessage());
+        }
+          PanelCard.repaint();
+                PanelCard.revalidate();
 
     }
 
@@ -73,6 +113,11 @@ public class DashboardFormUser extends javax.swing.JFrame {
         PanelBtnNews = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         MainPanel = new javax.swing.JPanel();
+        PanelImage = new javax.swing.JPanel();
+        LabelImage = new javax.swing.JLabel();
+        PanelNews = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        PanelCard = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Dashboard ManUtd Pengguna");
@@ -104,17 +149,17 @@ public class DashboardFormUser extends javax.swing.JFrame {
             .addGap(0, 59, Short.MAX_VALUE)
         );
 
-        HeaderPanel.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 10, 3, 59));
+        HeaderPanel.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 10, 3, 59));
 
         jLabel11.setFont(new java.awt.Font("Verdana", 1, 20)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("No Room For Racism");
-        HeaderPanel.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 10, -1, -1));
+        HeaderPanel.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 10, -1, -1));
 
         LabelDatetime.setFont(new java.awt.Font("Verdana", 0, 19)); // NOI18N
         LabelDatetime.setForeground(new java.awt.Color(255, 255, 255));
         LabelDatetime.setText("No Room For Racism");
-        HeaderPanel.add(LabelDatetime, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 40, 235, -1));
+        HeaderPanel.add(LabelDatetime, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 40, 235, -1));
 
         SidebarPanel.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -217,29 +262,63 @@ public class DashboardFormUser extends javax.swing.JFrame {
                 .addComponent(PanelBtnStatistik, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(PanelBtnNews, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 418, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(PanelLogout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32))
         );
 
         MainPanel.setBackground(new java.awt.Color(255, 255, 255));
+        MainPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout MainPanelLayout = new javax.swing.GroupLayout(MainPanel);
-        MainPanel.setLayout(MainPanelLayout);
-        MainPanelLayout.setHorizontalGroup(
-            MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        LabelImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/DashboardUser/ImageDashboardUser.png"))); // NOI18N
+
+        javax.swing.GroupLayout PanelImageLayout = new javax.swing.GroupLayout(PanelImage);
+        PanelImage.setLayout(PanelImageLayout);
+        PanelImageLayout.setHorizontalGroup(
+            PanelImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(LabelImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        MainPanelLayout.setVerticalGroup(
-            MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        PanelImageLayout.setVerticalGroup(
+            PanelImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(LabelImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        MainPanel.add(PanelImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        PanelNews.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Verdana", 0, 20)); // NOI18N
+        jLabel1.setText("News Latest");
+
+        PanelCard.setBackground(new java.awt.Color(255, 255, 255));
+        PanelCard.setLayout(new javax.swing.BoxLayout(PanelCard, javax.swing.BoxLayout.LINE_AXIS));
+
+        javax.swing.GroupLayout PanelNewsLayout = new javax.swing.GroupLayout(PanelNews);
+        PanelNews.setLayout(PanelNewsLayout);
+        PanelNewsLayout.setHorizontalGroup(
+            PanelNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelNewsLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(PanelCard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        PanelNewsLayout.setVerticalGroup(
+            PanelNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelNewsLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(PanelCard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        MainPanel.add(PanelNews, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 343, 1257, 560));
 
         javax.swing.GroupLayout ContainerPanelLayout = new javax.swing.GroupLayout(ContainerPanel);
         ContainerPanel.setLayout(ContainerPanelLayout);
         ContainerPanelLayout.setHorizontalGroup(
             ContainerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(HeaderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1345, Short.MAX_VALUE)
+            .addComponent(HeaderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(ContainerPanelLayout.createSequentialGroup()
                 .addComponent(SidebarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -359,14 +438,19 @@ public class DashboardFormUser extends javax.swing.JFrame {
     private javax.swing.JPanel ContainerPanel;
     private javax.swing.JPanel HeaderPanel;
     private javax.swing.JLabel LabelDatetime;
+    private javax.swing.JLabel LabelImage;
     private javax.swing.JLabel LblWelcome;
     private javax.swing.JPanel MainPanel;
     private javax.swing.JPanel PanelBtnNews;
     private javax.swing.JPanel PanelBtnPlayer;
     private javax.swing.JPanel PanelBtnStatistik;
     private javax.swing.JPanel PanelButton;
+    private javax.swing.JPanel PanelCard;
+    private javax.swing.JPanel PanelImage;
     private javax.swing.JPanel PanelLogout;
+    private javax.swing.JPanel PanelNews;
     private javax.swing.JPanel SidebarPanel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
