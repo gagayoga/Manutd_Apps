@@ -11,10 +11,20 @@ package Model;
 public class Player {
     String id_player;
     String name;
+    String negara;
     
-    public Player(String id_player, String name){
+    public Player(String id_player, String name, String negara){
         this.id_player = id_player;
         this.name = name;
+        this.negara = negara;
+    }
+
+    public String getNegara() {
+        return negara;
+    }
+
+    public void setNegara(String negara) {
+        this.negara = negara;
     }
 
     public String getId_player() {

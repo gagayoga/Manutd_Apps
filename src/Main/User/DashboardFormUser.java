@@ -5,7 +5,10 @@
 package Main.User;
 
 import Koneksi.Config;
-import Main.User.Component.CardPlayer;
+import Main.User.Component.CardNews;
+import MenuAdmin.UserPage;
+import MenuUser.NewsPageUser;
+import MenuUser.PlayersPageUser;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -31,12 +34,13 @@ public class DashboardFormUser extends javax.swing.JFrame {
      * Creates new form DashboardFormUser
      */
     Timer timer;
+
     public DashboardFormUser() {
         initComponents();
-        
+
         String name = Session.SessionLogin.getNameUser();
         LblWelcome.setText("Welcome Back " + name);
-        
+
         LoadDateTime();
         timer = new Timer(1000, new ActionListener() {
             @Override
@@ -46,36 +50,36 @@ public class DashboardFormUser extends javax.swing.JFrame {
         });
 
         timer.start();
-        
+
         LoadNews();
 
     }
-    
-    private void LoadNews(){
+
+    private void LoadNews() {
         String idNews, judulNews, deskripsiNews, kategoriNews, imageNews;
         PanelCard.removeAll();
-         try {
+        try {
             String sql = "SELECT * FROM news ORDER BY id_berita DESC LIMIT 3";
             Connection conn = (Connection) Config.configDB();
             Statement stm = conn.createStatement();
             ResultSet res = stm.executeQuery(sql);
-            
-            while(res.next()){
+
+            while (res.next()) {
                 idNews = res.getString("id_berita");
                 judulNews = res.getString("judul_berita");
                 deskripsiNews = res.getString("deskripsi");
                 kategoriNews = res.getString("kategori_berita");
                 imageNews = res.getString("image");
-                
-                CardPlayer cardplayer = new CardPlayer(idNews, judulNews, deskripsiNews, kategoriNews, imageNews);
-                PanelCard.add(cardplayer);
-                cardplayer.setPreferredSize(new Dimension(410, 240));
+
+                CardNews cardnews = new CardNews(idNews, judulNews, deskripsiNews, kategoriNews, imageNews);
+                PanelCard.add(cardnews);
+                cardnews.setPreferredSize(new Dimension(414, 395));
             }
         } catch (SQLException e) {
             System.out.println("Error : " + e.getMessage());
         }
-          PanelCard.repaint();
-                PanelCard.revalidate();
+        PanelCard.repaint();
+        PanelCard.revalidate();
 
     }
 
@@ -85,6 +89,7 @@ public class DashboardFormUser extends javax.swing.JFrame {
         String dateTime = dateFormat.format(now);
         LabelDatetime.setText(dateTime);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -113,15 +118,22 @@ public class DashboardFormUser extends javax.swing.JFrame {
         PanelBtnNews = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         MainPanel = new javax.swing.JPanel();
+        DashboardPanel = new javax.swing.JPanel();
         PanelImage = new javax.swing.JPanel();
         LabelImage = new javax.swing.JLabel();
         PanelNews = new javax.swing.JPanel();
+        rSMaterialButtonRectangle1 = new rojerusan.RSMaterialButtonRectangle();
         jLabel1 = new javax.swing.JLabel();
         PanelCard = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        rSMaterialButtonRectangle2 = new rojerusan.RSMaterialButtonRectangle();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Dashboard ManUtd Pengguna");
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/asset/Logo Mu.png")).getImage());
+        setResizable(false);
 
         HeaderPanel.setBackground(new java.awt.Color(204, 0, 0));
         HeaderPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -164,10 +176,15 @@ public class DashboardFormUser extends javax.swing.JFrame {
         SidebarPanel.setBackground(new java.awt.Color(0, 0, 0));
 
         PanelButton.setBackground(new java.awt.Color(255, 255, 255));
+        PanelButton.setToolTipText("Dashboard Home");
         PanelButton.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon Menu/HomeButton.png"))); // NOI18N
+        jLabel2.setToolTipText("Menu Dashboard");
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel2MouseEntered(evt);
             }
@@ -178,9 +195,11 @@ public class DashboardFormUser extends javax.swing.JFrame {
         PanelButton.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 53));
 
         PanelLogout.setBackground(new java.awt.Color(240, 0, 0));
+        PanelLogout.setToolTipText("Menu Log Out");
         PanelLogout.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon Menu/IconLogout.png"))); // NOI18N
+        jLabel5.setToolTipText("Menu Log Out");
         jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel5MouseEntered(evt);
@@ -192,11 +211,16 @@ public class DashboardFormUser extends javax.swing.JFrame {
         PanelLogout.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 0, -1, 53));
 
         PanelBtnPlayer.setBackground(new java.awt.Color(255, 255, 255));
+        PanelBtnPlayer.setToolTipText("Menu Players");
         PanelBtnPlayer.setPreferredSize(new java.awt.Dimension(100, 53));
         PanelBtnPlayer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon Menu/IconPlayer.png"))); // NOI18N
+        jLabel18.setToolTipText("Menu Players");
         jLabel18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel18MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel18MouseEntered(evt);
             }
@@ -207,10 +231,12 @@ public class DashboardFormUser extends javax.swing.JFrame {
         PanelBtnPlayer.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 53));
 
         PanelBtnStatistik.setBackground(new java.awt.Color(255, 255, 255));
+        PanelBtnStatistik.setToolTipText("Menu Statistik");
         PanelBtnStatistik.setPreferredSize(new java.awt.Dimension(100, 53));
         PanelBtnStatistik.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon Menu/IconStatistik.png"))); // NOI18N
+        jLabel19.setToolTipText("Menu Statistik");
         jLabel19.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel19MouseEntered(evt);
@@ -222,11 +248,16 @@ public class DashboardFormUser extends javax.swing.JFrame {
         PanelBtnStatistik.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 53));
 
         PanelBtnNews.setBackground(new java.awt.Color(255, 255, 255));
+        PanelBtnNews.setToolTipText("Menu News");
         PanelBtnNews.setPreferredSize(new java.awt.Dimension(100, 53));
         PanelBtnNews.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon Menu/IconNews.png"))); // NOI18N
+        jLabel20.setToolTipText("Menu News");
         jLabel20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel20MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel20MouseEntered(evt);
             }
@@ -268,7 +299,11 @@ public class DashboardFormUser extends javax.swing.JFrame {
         );
 
         MainPanel.setBackground(new java.awt.Color(255, 255, 255));
-        MainPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        MainPanel.setLayout(new java.awt.BorderLayout());
+
+        DashboardPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        PanelImage.setBackground(new java.awt.Color(255, 255, 255));
 
         LabelImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/DashboardUser/ImageDashboardUser.png"))); // NOI18N
 
@@ -283,36 +318,63 @@ public class DashboardFormUser extends javax.swing.JFrame {
             .addComponent(LabelImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        MainPanel.add(PanelImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        DashboardPanel.add(PanelImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         PanelNews.setBackground(new java.awt.Color(255, 255, 255));
+        PanelNews.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Verdana", 0, 20)); // NOI18N
+        rSMaterialButtonRectangle1.setBackground(new java.awt.Color(246, 246, 246));
+        rSMaterialButtonRectangle1.setForeground(new java.awt.Color(204, 0, 0));
+        rSMaterialButtonRectangle1.setText("View All");
+        rSMaterialButtonRectangle1.setFont(new java.awt.Font("Roboto Medium", 1, 18)); // NOI18N
+        rSMaterialButtonRectangle1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rSMaterialButtonRectangle1ActionPerformed(evt);
+            }
+        });
+        PanelNews.add(rSMaterialButtonRectangle1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 10, 240, 50));
+
+        jLabel1.setFont(new java.awt.Font("Verdana", 1, 20)); // NOI18N
         jLabel1.setText("News Latest");
+        PanelNews.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, -1));
 
         PanelCard.setBackground(new java.awt.Color(255, 255, 255));
-        PanelCard.setLayout(new javax.swing.BoxLayout(PanelCard, javax.swing.BoxLayout.LINE_AXIS));
+        PanelNews.add(PanelCard, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 69, 1260, 400));
 
-        javax.swing.GroupLayout PanelNewsLayout = new javax.swing.GroupLayout(PanelNews);
-        PanelNews.setLayout(PanelNewsLayout);
-        PanelNewsLayout.setHorizontalGroup(
-            PanelNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelNewsLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(PanelCard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        jPanel4.setBackground(new java.awt.Color(240, 0, 0));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 135, Short.MAX_VALUE)
         );
-        PanelNewsLayout.setVerticalGroup(
-            PanelNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelNewsLayout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(PanelCard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 3, Short.MAX_VALUE)
         );
 
-        MainPanel.add(PanelNews, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 343, 1257, 560));
+        PanelNews.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 135, 3));
+
+        jPanel1.setBackground(new java.awt.Color(255, 0, 0));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        rSMaterialButtonRectangle2.setBackground(new java.awt.Color(246, 246, 246));
+        rSMaterialButtonRectangle2.setForeground(new java.awt.Color(204, 0, 0));
+        rSMaterialButtonRectangle2.setText("REGISTER NOW");
+        rSMaterialButtonRectangle2.setFont(new java.awt.Font("Roboto Medium", 1, 18)); // NOI18N
+        jPanel1.add(rSMaterialButtonRectangle2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 10, 240, 60));
+
+        jLabel4.setFont(new java.awt.Font("Verdana", 0, 19)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Rasakan konten - konten yang tidak terbatas dengan langganan Premium Rp. 65.000 /bulan.");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 4, -1, 70));
+
+        PanelNews.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 480, 1260, 80));
+
+        DashboardPanel.add(PanelNews, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 343, 1257, 560));
+
+        MainPanel.add(DashboardPanel, java.awt.BorderLayout.PAGE_START);
 
         javax.swing.GroupLayout ContainerPanelLayout = new javax.swing.GroupLayout(ContainerPanel);
         ContainerPanel.setLayout(ContainerPanelLayout);
@@ -399,6 +461,53 @@ public class DashboardFormUser extends javax.swing.JFrame {
         PanelLogout.setBackground(new Color(240, 0, 0));
     }//GEN-LAST:event_jLabel5MouseExited
 
+    private void jLabel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel18MouseClicked
+        // TODO add your handling code here:
+        MainPanel.removeAll();
+        MainPanel.repaint();
+        MainPanel.revalidate();
+
+        PlayersPageUser panelPlayers = new PlayersPageUser();
+        MainPanel.add(panelPlayers);
+        MainPanel.repaint();
+        MainPanel.revalidate();
+    }//GEN-LAST:event_jLabel18MouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        // TODO add your handling code here:
+        MainPanel.removeAll();
+        MainPanel.repaint();
+        MainPanel.revalidate();
+
+        MainPanel.add(DashboardPanel);
+        MainPanel.repaint();
+        MainPanel.revalidate();
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
+        // TODO add your handling code here:
+        MainPanel.removeAll();
+        MainPanel.repaint();
+        MainPanel.revalidate();
+
+        NewsPageUser panelNews = new NewsPageUser();
+        MainPanel.add(panelNews);
+        MainPanel.repaint();
+        MainPanel.revalidate();
+    }//GEN-LAST:event_jLabel20MouseClicked
+
+    private void rSMaterialButtonRectangle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonRectangle1ActionPerformed
+        // TODO add your handling code here:
+        MainPanel.removeAll();
+        MainPanel.repaint();
+        MainPanel.revalidate();
+
+        NewsPageUser panelNews = new NewsPageUser();
+        MainPanel.add(panelNews);
+        MainPanel.repaint();
+        MainPanel.revalidate();
+    }//GEN-LAST:event_rSMaterialButtonRectangle1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -410,7 +519,7 @@ public class DashboardFormUser extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -426,6 +535,7 @@ public class DashboardFormUser extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -436,6 +546,7 @@ public class DashboardFormUser extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ContainerPanel;
+    private javax.swing.JPanel DashboardPanel;
     private javax.swing.JPanel HeaderPanel;
     private javax.swing.JLabel LabelDatetime;
     private javax.swing.JLabel LabelImage;
@@ -457,7 +568,12 @@ public class DashboardFormUser extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
+    private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle1;
+    private rojerusan.RSMaterialButtonRectangle rSMaterialButtonRectangle2;
     // End of variables declaration//GEN-END:variables
 }
