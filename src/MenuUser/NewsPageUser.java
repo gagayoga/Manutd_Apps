@@ -10,6 +10,7 @@ import Main.User.Component.CardPlayers;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -26,28 +27,100 @@ public class NewsPageUser extends javax.swing.JPanel {
      */
     public NewsPageUser() {
         initComponents();
-        
+
         LoadDataCard();
     }
-    
-    private void LoadDataCard(){
+
+    private void LoadDataCard() {
         PanelCard.setLayout(new GridLayout(0, 3, 3, 3)); // 0 rows, 4 columns, dengan jarak 10 pixel horizontal dan vertical
-    PanelCard.setAutoscrolls(true);
+        PanelCard.setAutoscrolls(true);
         String idNews, judulNews, deskripsiNews, kategoriNews, imageNews;
         PanelCard.removeAll();
-         try {
+        try {
             String sql = "SELECT * FROM news";
             Connection conn = (Connection) Config.configDB();
             Statement stm = conn.createStatement();
             ResultSet res = stm.executeQuery(sql);
-            
-            while(res.next()){
+
+            while (res.next()) {
                 idNews = res.getString("id_berita");
                 judulNews = res.getString("judul_berita");
                 deskripsiNews = res.getString("deskripsi");
                 kategoriNews = res.getString("kategori_berita");
                 imageNews = res.getString("image");
-                
+
+                CardNews cardnews = new CardNews(idNews, judulNews, deskripsiNews, kategoriNews, imageNews);
+                PanelCard.add(cardnews);
+                cardnews.setPreferredSize(new Dimension(414, 395));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error : " + e.getMessage());
+        }
+        PanelCard.repaint();
+        PanelCard.revalidate();
+    }
+
+    private void FilterNews() {
+        PanelCard.setLayout(new GridLayout(0, 3, 3, 3)); // 0 rows, 4 columns, dengan jarak 10 pixel horizontal dan vertical
+        PanelCard.setAutoscrolls(true);
+        String idNews, judulNews, deskripsiNews, kategoriNews, imageNews;
+        PanelCard.removeAll();
+        try {
+            String KategoriBerita = txtselectkategori.getSelectedItem().toString().trim();
+            if(KategoriBerita.equals("Filter Kategori")){
+                LoadDataCard();
+            }else{
+            int no = 1;
+            String sql = "SELECT * FROM news WHERE kategori_berita LIKE ?";
+            Connection conn = (Connection) Config.configDB();
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setString(1, "%" + KategoriBerita + "%");
+            ResultSet res = pstm.executeQuery();
+
+            while (res.next()) {
+                idNews = res.getString("id_berita");
+                judulNews = res.getString("judul_berita");
+                deskripsiNews = res.getString("deskripsi");
+                kategoriNews = res.getString("kategori_berita");
+                imageNews = res.getString("image");
+
+                CardNews cardnews = new CardNews(idNews, judulNews, deskripsiNews, kategoriNews, imageNews);
+                PanelCard.add(cardnews);
+                cardnews.setPreferredSize(new Dimension(414, 395));
+            }
+           }
+        } catch (SQLException e) {
+            System.out.println("Error : " + e.getMessage());
+        }
+        
+        PanelCard.repaint();
+        PanelCard.revalidate();
+    }
+
+    private void SearchData() {
+        PanelCard.setLayout(new GridLayout(0, 3, 3, 3)); // 0 rows, 4 columns, dengan jarak 10 pixel horizontal dan vertical
+        PanelCard.setAutoscrolls(true);
+        String idNews, judulNews, deskripsiNews, kategoriNews, imageNews;
+        PanelCard.removeAll();
+        try {
+            String valueSearch = txtsearch.getText().toString().trim();
+            String sql = "SELECT * FROM news WHERE tanggal LIKE ? OR judul_berita LIKE ? OR isi_berita LIKE ? OR kategori_berita LIKE ? OR penulis LIKE ?";
+            Connection conn = (Connection) Config.configDB();
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setString(1, "%" + valueSearch + "%");
+            pstm.setString(2, "%" + valueSearch + "%");
+            pstm.setString(3, "%" + valueSearch + "%");
+            pstm.setString(4, "%" + valueSearch + "%");
+            pstm.setString(5, "%" + valueSearch + "%");
+            ResultSet res = pstm.executeQuery();
+
+            while (res.next()) {
+                idNews = res.getString("id_berita");
+                judulNews = res.getString("judul_berita");
+                deskripsiNews = res.getString("deskripsi");
+                kategoriNews = res.getString("kategori_berita");
+                imageNews = res.getString("image");
+
                 CardNews cardnews = new CardNews(idNews, judulNews, deskripsiNews, kategoriNews, imageNews);
                 PanelCard.add(cardnews);
                 cardnews.setPreferredSize(new Dimension(414, 395));
@@ -118,7 +191,7 @@ public class NewsPageUser extends javax.swing.JPanel {
         jPanel1.add(txtselectkategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 360, 50));
 
         PanelCard.setBackground(new java.awt.Color(255, 255, 255));
-        PanelCard.setLayout(new java.awt.GridLayout());
+        PanelCard.setLayout(new java.awt.GridLayout(1, 0));
         jScrollPane1.setViewportView(PanelCard);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 1260, 640));
@@ -137,10 +210,12 @@ public class NewsPageUser extends javax.swing.JPanel {
 
     private void txtsearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtsearchKeyReleased
         // TODO add your handling code here:
+        SearchData();
     }//GEN-LAST:event_txtsearchKeyReleased
 
     private void txtselectkategoriItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_txtselectkategoriItemStateChanged
         // TODO add your handling code here:
+        FilterNews();
     }//GEN-LAST:event_txtselectkategoriItemStateChanged
 
 

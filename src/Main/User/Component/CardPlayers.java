@@ -16,11 +16,11 @@ public class CardPlayers extends javax.swing.JPanel {
     /**
      * Creates new form CardPlayers
      */
-    public CardPlayers(String idPlayer, String firstName, String LastName, String positionPlayer
-            ,String numberPlayer,String imagePlayer) {
-        
+    public CardPlayers(String idPlayer, String firstName, String LastName, String positionPlayer,
+             String numberPlayer, String imagePlayer) {
+
         initComponents();
-        
+
         Lblimage.setVisible(false);
         Lblid.setText(idPlayer);
         Lblfirst.setText(firstName);
@@ -29,14 +29,14 @@ public class CardPlayers extends javax.swing.JPanel {
         Lblnumber.setText(numberPlayer);
         Lblimage.setText(imagePlayer);
         LoadImage();
-        
+
     }
-    
-    private void LoadImage(){
+
+    private void LoadImage() {
         String ImagePlayer = Lblimage.getText().toString();
-        
+
         ImageIcon imageIcon = new ImageIcon(ImagePlayer);
-        
+
         int labelWidth = 350;
         int labelHeight = 290;
 
@@ -50,7 +50,7 @@ public class CardPlayers extends javax.swing.JPanel {
         Image ScaleImage = imageIcon.getImage().getScaledInstance((int) (scale * imageWidth), (int) (scale * imageHeight), Image.SCALE_SMOOTH);
 
         ImagePlayers.setIcon(new ImageIcon(ScaleImage));
-        
+
     }
 
     /**

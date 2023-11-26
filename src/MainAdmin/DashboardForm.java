@@ -135,6 +135,7 @@ public class DashboardForm extends javax.swing.JFrame {
                 });
                 TableUser.setModel(model);
             }
+            
         } catch (SQLException e) {
             System.out.println("Error : " + e.getMessage());
         }
@@ -556,7 +557,7 @@ public class DashboardForm extends javax.swing.JFrame {
 
         LabelUser.setFont(new java.awt.Font("Verdana", 1, 25)); // NOI18N
         LabelUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        LabelUser.setText("User Apps");
+        LabelUser.setText("USER APPS");
 
         ValueUser.setBackground(new java.awt.Color(240, 0, 0));
         ValueUser.setFont(new java.awt.Font("Verdana", 1, 70)); // NOI18N
@@ -580,7 +581,7 @@ public class DashboardForm extends javax.swing.JFrame {
 
         Labeltahunuser.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         Labeltahunuser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Labeltahunuser.setText("2023");
+        Labeltahunuser.setText("COUNT");
 
         javax.swing.GroupLayout PanelTotalUserLayout = new javax.swing.GroupLayout(PanelTotalUser);
         PanelTotalUser.setLayout(PanelTotalUserLayout);
@@ -592,14 +593,16 @@ public class DashboardForm extends javax.swing.JFrame {
             .addGroup(PanelTotalUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(PanelTotalUserLayout.createSequentialGroup()
                     .addGroup(PanelTotalUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(LabelUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Labeltahunuser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(PanelTotalUserLayout.createSequentialGroup()
                             .addGroup(PanelTotalUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(ValueUser, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(0, 0, Short.MAX_VALUE)))
-                    .addGap(218, 218, 218)))
+                    .addGap(218, 218, 218))
+                .addGroup(PanelTotalUserLayout.createSequentialGroup()
+                    .addComponent(LabelUser, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(203, Short.MAX_VALUE)))
         );
         PanelTotalUserLayout.setVerticalGroup(
             PanelTotalUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -618,7 +621,7 @@ public class DashboardForm extends javax.swing.JFrame {
 
         PanelTotalPemain.setBackground(new java.awt.Color(255, 251, 251));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/ImagePemain.png"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/ImagePlayer.png"))); // NOI18N
         jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel7MouseEntered(evt);
@@ -654,7 +657,7 @@ public class DashboardForm extends javax.swing.JFrame {
 
         Labelyear.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         Labelyear.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Labelyear.setText("2023");
+        Labelyear.setText("Count ");
 
         javax.swing.GroupLayout PanelTotalPemainLayout = new javax.swing.GroupLayout(PanelTotalPemain);
         PanelTotalPemain.setLayout(PanelTotalPemainLayout);
@@ -687,7 +690,7 @@ public class DashboardForm extends javax.swing.JFrame {
 
         PanelTotalBerita.setBackground(new java.awt.Color(255, 255, 255));
 
-        LabelBerita.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/ImagePemain.png"))); // NOI18N
+        LabelBerita.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/ImageNews.png"))); // NOI18N
         LabelBerita.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 LabelBeritaFocusGained(evt);
@@ -707,7 +710,7 @@ public class DashboardForm extends javax.swing.JFrame {
 
         LabelText.setFont(new java.awt.Font("Verdana", 1, 25)); // NOI18N
         LabelText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        LabelText.setText("PLAYER");
+        LabelText.setText("NEWS");
 
         LabelTotal.setBackground(new java.awt.Color(240, 0, 0));
         LabelTotal.setFont(new java.awt.Font("Verdana", 1, 70)); // NOI18N
@@ -731,7 +734,7 @@ public class DashboardForm extends javax.swing.JFrame {
 
         LabelTahun.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         LabelTahun.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        LabelTahun.setText("2023");
+        LabelTahun.setText("Count");
 
         javax.swing.GroupLayout PanelTotalBeritaLayout = new javax.swing.GroupLayout(PanelTotalBerita);
         PanelTotalBerita.setLayout(PanelTotalBeritaLayout);
@@ -891,7 +894,7 @@ public class DashboardForm extends javax.swing.JFrame {
         MainPanel.removeAll();
         MainPanel.repaint();
         MainPanel.revalidate();
-        
+
         MainPanel.add(PanelDashboard);
         MainPanel.repaint();
         MainPanel.revalidate();
@@ -999,7 +1002,7 @@ public class DashboardForm extends javax.swing.JFrame {
         MainPanel.removeAll();
         MainPanel.repaint();
         MainPanel.revalidate();
-        
+
         NewsPage panelNews = new NewsPage();
         MainPanel.add(panelNews);
         MainPanel.repaint();
@@ -1128,7 +1131,7 @@ public class DashboardForm extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(DashboardForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

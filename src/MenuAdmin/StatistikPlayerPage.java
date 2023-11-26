@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Asus
  */
 public class StatistikPlayerPage extends javax.swing.JPanel {
-    
+
     ArrayList<Player> arrPlayer = new ArrayList<>();
     String nama;
     private int userIdCounter = 1;
@@ -46,7 +46,7 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
         BDelete.setText("DELETE");
         BCancel.setText("CLEAR");
     }
-      
+
     private void LockInputan() {
         txtkode.setEnabled(false);
         txtplayer.setEnabled(false);
@@ -97,49 +97,49 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
         BDelete.setEnabled(true);
         BCancel.setEnabled(true);
     }
-    
-    private void ShowNamePlayer(){
+
+    private void ShowNamePlayer() {
         String kode = txtplayer.getSelectedItem().toString().trim();
-        
-        if(kode.equals("")){
+
+        if (kode.equals("")) {
             txtname.setText("");
-        }else{
+        } else {
             try {
-            String sql = "SELECT * FROM player WHERE id_player ='"+kode+"'";
-            Connection conn = (Connection) Config.configDB();
-            Statement stm = conn.createStatement();
-            ResultSet res = stm.executeQuery(sql);
-            
-            while(res.next()){
-               nama  = res.getString("name");
+                String sql = "SELECT CONCAT(first_name , last_name) AS name FROM player WHERE id_player ='" + kode + "'";
+                Connection conn = (Connection) Config.configDB();
+                Statement stm = conn.createStatement();
+                ResultSet res = stm.executeQuery(sql);
+
+                while (res.next()) {
+                    nama = res.getString("name");
+                }
+                txtname.setText(nama);
+            } catch (SQLException e) {
+                System.out.println("Error : " + e.getMessage());
             }
-            txtname.setText(nama);
-        } catch (SQLException e) {
-            System.out.println("Error : " + e.getMessage());
-        }
         }
     }
-    
-    private void ShowDataPlayer(){
+
+    private void ShowDataPlayer() {
         txtplayer.removeAllItems();
-        
-         try {
-            String sql = "SELECT * FROM player";
+
+        try {
+            String sql = "SELECT id_player, CONCAT(first_name, last_name) AS name_player, negara FROM player";
             Connection conn = (Connection) Config.configDB();
             Statement stm = conn.createStatement();
             ResultSet res = stm.executeQuery(sql);
-            
-            while(res.next()){
+
+            while (res.next()) {
                 arrPlayer.add(new Player(
                         res.getNString("id_player"),
-                        res.getString("name"),
+                        res.getString("name_player"),
                         res.getString("negara")
                 ));
             }
-            for (int i=0; i < arrPlayer.size(); i++ ){
+            for (int i = 0; i < arrPlayer.size(); i++) {
                 txtplayer.addItem(arrPlayer.get(i).getId_player());
             }
-            
+
         } catch (SQLException e) {
             System.out.println("Error : " + e.getMessage());
         }
@@ -202,7 +202,7 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
             pstm.setString(8, shoot);
             pstm.executeUpdate();
 
-            JOptionPane.showMessageDialog(null, "Create Data Satatistik " + txtname.getText().toString() +" Succesfully.");
+            JOptionPane.showMessageDialog(null, "Create Data Satatistik " + txtname.getText().toString() + " Succesfully.");
             LockInputan();
             ShowTable();
             ClearForm();
@@ -313,6 +313,7 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
         BCreate = new rojerusan.RSMaterialButtonRectangle();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setPreferredSize(new java.awt.Dimension(1110, 986));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Verdana", 1, 25)); // NOI18N
@@ -399,6 +400,7 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
         jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 140, -1));
 
         txtname.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        txtname.setEnabled(false);
         txtname.setMargin(new java.awt.Insets(2, 10, 2, 10));
         jPanel3.add(txtname, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 330, 50));
 
@@ -643,13 +645,13 @@ public class StatistikPlayerPage extends javax.swing.JPanel {
 
         String yellowcard = TablePlayer.getValueAt(baris, 6).toString();
         txtyellow.setText(yellowcard);
-        
+
         String redcard = TablePlayer.getValueAt(baris, 6).toString();
         txtred.setText(redcard);
-        
+
         String shoot = TablePlayer.getValueAt(baris, 6).toString();
         txtshoot.setText(shoot);
-        
+
         BCreate.setEnabled(false);
     }//GEN-LAST:event_TablePlayerMouseClicked
 

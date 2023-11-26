@@ -186,7 +186,7 @@ public class SplashScreen extends javax.swing.JFrame {
         splash.setVisible(true);
          try{
              for(int i=0; i<=100; i++){
-                 Thread.sleep(100);
+                 Thread.sleep(50);
                  splash.Loadingvalue.setText(i +"%");
                  
                  if(i==01   ){

@@ -4,7 +4,6 @@
  */
 package MenuAdmin;
 
-
 import Koneksi.Config;
 import java.awt.HeadlessException;
 import java.awt.Image;
@@ -18,6 +17,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -29,15 +29,16 @@ import javax.swing.table.DefaultTableModel;
  * @author Asus
  */
 public class NewsPage extends javax.swing.JPanel {
-    
+
     private String namaPenulis;
     private int userIdCounter = 1;
+
     /**
      * Creates new form News
      */
     public NewsPage() {
         initComponents();
-        
+
         LockInputan();
         ButtonEnabled();
 
@@ -46,8 +47,13 @@ public class NewsPage extends javax.swing.JPanel {
         ButtonName();
         namaPenulis = Session.SessionLogin.getNameUser();
         txtpenulis.setText(namaPenulis);
+
+        txtisi.setLineWrap(true);
+        txtisi.setWrapStyleWord(true); //
+        
+        ShowPenulis();
     }
-    
+
     private void LockInputan() {
         txtkode.setEnabled(false);
         txttitle.setEnabled(false);
@@ -115,7 +121,7 @@ public class NewsPage extends javax.swing.JPanel {
         userIdCounter++;
     }
 
-    private void SearchQuery(){
+    private void SearchQuery() {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("No");
         model.addColumn("Kode News");
@@ -140,19 +146,93 @@ public class NewsPage extends javax.swing.JPanel {
             pstm.setString(5, "%" + SearchValue + "%");
             ResultSet res = pstm.executeQuery();
 
-            while (res.next()) {
-               model.addRow(new Object[]{no++, res.getString(1), res.getString(2),
-                    res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8)
-                });
+            if (res.next()) {
+                do {
+                    model.addRow(new Object[]{no++, res.getString(1), res.getString(2),
+                        res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8)
+                    });
+                } while (res.next());
+            } else {
+                model.addRow(new Object[]{"Data Not Found", "", "", "", "", "", "", ""});
             }
-            
+
             TableNews.setModel(model);
         } catch (SQLException e) {
             System.out.println("Error : " + e.getMessage());
         }
     }
+    
+    private void ShowPenulis() {
+        String negara;
+        DefaultComboBoxModel<String> negaraModel = new DefaultComboBoxModel<>();
+
+        filterpenulis.setModel(negaraModel);
+
+        try {
+            String sql = "SELECT penulis AS penulisBerita FROM news GROUP BY penulis";
+            Connection conn = (Connection) Config.configDB();
+            Statement stm = conn.createStatement();
+            ResultSet res = stm.executeQuery(sql);
+
+            while (res.next()) {
+                negara = res.getString("penulisBerita");
+                negaraModel.addElement(negara);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error : " + e.getMessage());
+        }
+    }
+
     // bagian CRUD
-    private void FilterBulan(){
+    private void FilterNewsAll(){
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("No");
+        model.addColumn("Kode News");
+        model.addColumn("Tanggal News");
+        model.addColumn("Judul News");
+        model.addColumn("Deskripsi News");
+        model.addColumn("Isi News");
+        model.addColumn("Kategori News");
+        model.addColumn("Penulis News");
+        model.addColumn("Image News");
+
+        try {
+            String Bulan = txtbulan.getSelectedItem().toString().trim();
+            String KategoriBerita = txtselectkategori.getSelectedItem().toString().trim();
+            String filterNews = filterpenulis.getSelectedItem().toString().trim();
+            if(KategoriBerita.equals("Filter Kategori")){
+                ShowTable();
+            }else if (Bulan.equals("Filter Bulan")){
+                ShowTable();
+            }else if (filterNews.equals("Filter Penulis")){
+                ShowTable();
+            }else{
+             int no = 1;
+            String sql = "SELECT * FROM news WHERE kategori_berita LIKE ?, MONTHNAME(tanggal) LIKE ?, penulis LIKE ?";
+            Connection conn = (Connection) Config.configDB();
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setString(1, "%" + KategoriBerita + "%");
+            pstm.setString(2, "%" + Bulan + "%");
+            pstm.setString(3, "%" + filterNews + "%");
+            ResultSet res = pstm.executeQuery();
+
+            if (res.next()) {
+                do {
+                    model.addRow(new Object[]{no++, res.getString(1), res.getString(2),
+                        res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8)
+                    });
+                } while (res.next());
+            } else {
+                model.addRow(new Object[]{"Data Not Found", "", "", "", "", "", "", ""});
+            }
+            TableNews.setModel(model);   
+            }
+        } catch (SQLException e) {
+            System.out.println("Error : " + e.getMessage());
+        }
+    }
+    private void FilterBulan() {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("No");
         model.addColumn("Kode News");
@@ -173,18 +253,22 @@ public class NewsPage extends javax.swing.JPanel {
             pstm.setString(1, "%" + Bulan + "%");
             ResultSet res = pstm.executeQuery();
 
-            while (res.next()) {
-                model.addRow(new Object[]{no++, res.getString(1), res.getString(2),
-                    res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8)
-                });
+            if (res.next()) {
+                do {
+                    model.addRow(new Object[]{no++, res.getString(1), res.getString(2),
+                        res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8)
+                    });
+                } while (res.next());
+            } else {
+                model.addRow(new Object[]{"Data Not Found", "", "", "", "", "", "", ""});
             }
             TableNews.setModel(model);
         } catch (SQLException e) {
             System.out.println("Error : " + e.getMessage());
         }
     }
-    
-    private void FilterKategori(){
+
+    private void FilterKategori() {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("No");
         model.addColumn("Kode News");
@@ -198,24 +282,32 @@ public class NewsPage extends javax.swing.JPanel {
 
         try {
             String KategoriBerita = txtselectkategori.getSelectedItem().toString().trim();
-            int no = 1;
-            String sql = "SELECT * FROM news WHERE kategori_berita LIKE ?";
-            Connection conn = (Connection) Config.configDB();
-            PreparedStatement pstm = conn.prepareStatement(sql);
-            pstm.setString(1, "%" + KategoriBerita + "%");
-            ResultSet res = pstm.executeQuery();
+            if (KategoriBerita.equals("Filter Kategori")) {
+                ShowTable();
+            } else {
+                int no = 1;
+                String sql = "SELECT * FROM news WHERE kategori_berita LIKE ?";
+                Connection conn = (Connection) Config.configDB();
+                PreparedStatement pstm = conn.prepareStatement(sql);
+                pstm.setString(1, "%" + KategoriBerita + "%");
+                ResultSet res = pstm.executeQuery();
 
-            while (res.next()) {
-                model.addRow(new Object[]{no++, res.getString(1), res.getString(2),
-                    res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8)
-                });
+                if (res.next()) {
+                    do {
+                        model.addRow(new Object[]{no++, res.getString(1), res.getString(2),
+                            res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8)
+                        });
+                    } while (res.next());
+                } else {
+                    model.addRow(new Object[]{"Data Not Found", "", "", "", "", "", "", ""});
+                }
+                TableNews.setModel(model);
             }
-            TableNews.setModel(model);
         } catch (SQLException e) {
             System.out.println("Error : " + e.getMessage());
         }
     }
-    
+
     private void ShowTable() {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("No");
@@ -235,13 +327,14 @@ public class NewsPage extends javax.swing.JPanel {
             Statement stm = conn.createStatement();
             ResultSet res = stm.executeQuery(sql);
 
-            if (!res.next()){
-                model.addRow(new Object[] {"Data not found"});
-            }
-            while (res.next()) {
-                model.addRow(new Object[]{no++, res.getString(1), res.getString(2),
-                    res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8)
-                });
+            if (res.next()) {
+                do {
+                    model.addRow(new Object[]{no++, res.getString(1), res.getString(2),
+                        res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8)
+                    });
+                } while (res.next());
+            } else {
+                model.addRow(new Object[]{"Data Not Found", "", "", "", "", "", "", ""});
             }
             TableNews.setModel(model);
         } catch (SQLException e) {
@@ -345,7 +438,6 @@ public class NewsPage extends javax.swing.JPanel {
         ButtonEnabled();
     }
 
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -385,12 +477,13 @@ public class NewsPage extends javax.swing.JPanel {
         jLabel15 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         txtsearch = new javax.swing.JTextField();
-        txtbulan = new javax.swing.JComboBox<>();
+        filterpenulis = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableNews = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         txtselectkategori = new javax.swing.JComboBox<>();
+        txtbulan = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setName(""); // NOI18N
@@ -444,6 +537,7 @@ public class NewsPage extends javax.swing.JPanel {
         jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 140, 60, 50));
 
         txttanggal.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        txttanggal.setEnabled(false);
         txttanggal.setMargin(new java.awt.Insets(2, 10, 2, 10));
         jPanel1.add(txttanggal, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 140, 330, 50));
 
@@ -472,13 +566,14 @@ public class NewsPage extends javax.swing.JPanel {
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 540, 140, -1));
 
         txtisi.setColumns(20);
-        txtisi.setFont(new java.awt.Font("Verdana", 0, 15)); // NOI18N
+        txtisi.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         txtisi.setRows(5);
         jScrollPane3.setViewportView(txtisi);
 
         jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 580, 1040, 190));
 
         txtpenulis.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        txtpenulis.setEnabled(false);
         txtpenulis.setMargin(new java.awt.Insets(2, 10, 2, 10));
         jPanel1.add(txtpenulis, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 460, 330, 50));
 
@@ -566,15 +661,16 @@ public class NewsPage extends javax.swing.JPanel {
         });
         jPanel2.add(txtsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 1040, 60));
 
-        txtbulan.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        txtbulan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Filter Bulan", "Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember" }));
-        txtbulan.addItemListener(new java.awt.event.ItemListener() {
+        filterpenulis.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        filterpenulis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Filter Bulan", "Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember" }));
+        filterpenulis.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                txtbulanItemStateChanged(evt);
+                filterpenulisItemStateChanged(evt);
             }
         });
-        jPanel2.add(txtbulan, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 240, 280, 50));
+        jPanel2.add(filterpenulis, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 240, 280, 50));
 
+        TableNews.setFont(new java.awt.Font("Verdana", 0, 17)); // NOI18N
         TableNews.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -624,6 +720,15 @@ public class NewsPage extends javax.swing.JPanel {
             }
         });
         jPanel2.add(txtselectkategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 360, 50));
+
+        txtbulan.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        txtbulan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Filter Bulan", "Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember" }));
+        txtbulan.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                txtbulanItemStateChanged(evt);
+            }
+        });
+        jPanel2.add(txtbulan, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 240, 280, 50));
 
         TabContainer.addTab("Data News", new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon Menu/IconNews.png")), jPanel2); // NOI18N
 
@@ -703,15 +808,15 @@ public class NewsPage extends javax.swing.JPanel {
             OpenInputan();
         } else if (BDelete.getText().equals("SUBMIT")) {
             if (txtkode.getText().equals("") || txttanggal.getText().equals("")
-                || txttitle.getText().equals("") || txtdeskripsi.getText().equals("")
-                || txtisi.getText().equals("")
-                || txtkategori.getSelectedItem().equals("")
-                || txtpenulis.getText().equals("")) {
+                    || txttitle.getText().equals("") || txtdeskripsi.getText().equals("")
+                    || txtisi.getText().equals("")
+                    || txtkategori.getSelectedItem().equals("")
+                    || txtpenulis.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Please Input All Inputan");
                 txtkode.requestFocus();
             } else {
                 int inputan = JOptionPane.showConfirmDialog(this,
-                    "Apakah Anda yakin delete data tersebut", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+                        "Apakah Anda yakin delete data tersebut", "Confirm Delete", JOptionPane.YES_NO_OPTION);
                 if (inputan == JOptionPane.YES_OPTION) {
                     DeleteQuery();
                     BDelete.setText("DELETE");
@@ -734,10 +839,10 @@ public class NewsPage extends javax.swing.JPanel {
             OpenInputan();
         } else if (BUpdate.getText().equals("SUBMIT")) {
             if (txtkode.getText().equals("") || txttanggal.getText().equals("")
-                || txttitle.getText().equals("") || txtdeskripsi.getText().equals("")
-                || txtisi.getText().equals("")
-                || txtkategori.getSelectedItem().equals("")
-                || txtpenulis.getText().equals("")) {
+                    || txttitle.getText().equals("") || txtdeskripsi.getText().equals("")
+                    || txtisi.getText().equals("")
+                    || txtkategori.getSelectedItem().equals("")
+                    || txtpenulis.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Please Input All Inputan");
                 txtkode.requestFocus();
             } else {
@@ -759,10 +864,10 @@ public class NewsPage extends javax.swing.JPanel {
             OpenInputan();
         } else if (BCreate.getText().equals("SUBMIT")) {
             if (txtkode.getText().equals("") || txttanggal.getText().equals("")
-                || txttitle.getText().equals("") || txtdeskripsi.getText().equals("")
-                || txtisi.getText().equals("")
-                || txtkategori.getSelectedItem().equals("")
-                || txtpenulis.getText().equals("")) {
+                    || txttitle.getText().equals("") || txtdeskripsi.getText().equals("")
+                    || txtisi.getText().equals("")
+                    || txtkategori.getSelectedItem().equals("")
+                    || txtpenulis.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Please Input All Inputan");
                 txtkode.requestFocus();
             } else {
@@ -775,7 +880,7 @@ public class NewsPage extends javax.swing.JPanel {
 
     private void TableNewsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableNewsMouseClicked
         // TODO add your handling code here:
-        
+
         TabContainer.setSelectedIndex(0);
         int baris = TableNews.rowAtPoint(evt.getPoint());
 
@@ -787,7 +892,7 @@ public class NewsPage extends javax.swing.JPanel {
 
         String Judul = TableNews.getValueAt(baris, 3).toString();
         txttitle.setText(Judul);
-        
+
         String Deskripsi = TableNews.getValueAt(baris, 4).toString();
         txtdeskripsi.setText(Deskripsi);
 
@@ -831,6 +936,11 @@ public class NewsPage extends javax.swing.JPanel {
         FilterKategori();
     }//GEN-LAST:event_txtselectkategoriItemStateChanged
 
+    private void filterpenulisItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_filterpenulisItemStateChanged
+        // TODO add your handling code here:
+        FilterNewsAll();
+    }//GEN-LAST:event_filterpenulisItemStateChanged
+
     private void txtbulanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_txtbulanItemStateChanged
         // TODO add your handling code here:
         FilterBulan();
@@ -847,6 +957,7 @@ public class NewsPage extends javax.swing.JPanel {
     private javax.swing.JLabel LblNews;
     private javax.swing.JTabbedPane TabContainer;
     private javax.swing.JTable TableNews;
+    private javax.swing.JComboBox<String> filterpenulis;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;

@@ -36,13 +36,13 @@ public class UserPage extends javax.swing.JPanel {
         KodeUser();
     }
 
-     private void ButtonName() {
+    private void ButtonName() {
         BCreate.setText("CREATE");
         BUpdate.setText("UPDATE");
         BDelete.setText("DELETE");
         BCancel.setText("CLEAR");
     }
-     
+
     private void LockInputan() {
         txtkode.setEnabled(false);
         txtname.setEnabled(false);
@@ -63,7 +63,6 @@ public class UserPage extends javax.swing.JPanel {
 
     private void ClearForm() {
         txtkode.setEditable(true);
-        txtkode.setText(null);
         txtname.setText(null);
         txtemail.setText(null);
         txtpassword.setText(null);
@@ -78,38 +77,37 @@ public class UserPage extends javax.swing.JPanel {
         BCancel.setEnabled(true);
     }
 
-        private void KodeUser() {
-        try{
+    private void KodeUser() {
+        try {
             String sql = "SELECT * FROM user ORDER BY id_user DESC";
             Connection conn = (Connection) Config.configDB();
             Statement stm = conn.createStatement();
             ResultSet res = stm.executeQuery(sql);
-            
-            if (res.next()){
-                String noUser = res.getString("id_useer").substring(4);
-                String idUser = "" + (Integer.parseInt(noUser)+1);
+
+            if (res.next()) {
+                String noUser = res.getString("id_user").substring(3);
+                String idUser = "" + (Integer.parseInt(noUser) + 1);
                 String Zero = "";
-                
-                if(idUser.length()==1){
+
+                if (idUser.length() == 1) {
                     Zero = "000";
-                }else if (idUser.length()==2){
+                } else if (idUser.length() == 2) {
                     Zero = "00";
-                }else if (idUser.length()==3){
+                } else if (idUser.length() == 3) {
                     Zero = "0";
-                }else if (idUser.length()==4){
+                } else if (idUser.length() == 4) {
                     Zero = "";
                 }
-                txtkode.setText("USR-" + Zero + idUser);
-            }else{
-                txtkode.setText("USR-001");
+                txtkode.setText("USR" + Zero + idUser);
+            } else {
+                txtkode.setText("USR0001");
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
-        
-    // bagian CRUD
 
+    // bagian CRUD
     private void ShowTable() {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("No.");
@@ -130,8 +128,8 @@ public class UserPage extends javax.swing.JPanel {
             while (res.next()) {
                 model.addRow(new Object[]{no++, res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6)
                 });
-                TableUser.setModel(model);
             }
+            TableUser.setModel(model);
         } catch (SQLException e) {
             System.out.println("Error : " + e.getMessage());
         }
@@ -144,16 +142,15 @@ public class UserPage extends javax.swing.JPanel {
             PreparedStatement pstm = conn.prepareStatement(sql);
             pstm.executeUpdate();
             JOptionPane.showMessageDialog(null, "Create Data User Succesfully.");
-            LockInputan();
-            KodeUser();
-            ShowTable();
-            ClearForm();
-            ButtonEnabled();
         } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
             System.out.println(e.getMessage());
         }
-        
+        LockInputan();
+        KodeUser();
+        ShowTable();
+        ClearForm();
+        ButtonEnabled();
     }
 
     private void UpdateQuery() {
@@ -164,7 +161,7 @@ public class UserPage extends javax.swing.JPanel {
                     + "password='" + txtpassword.getText() + "', "
                     + "no_telp='" + txttelepon.getText() + "', "
                     + "role='" + txtrole.getSelectedItem() + "'"
-                    + "WHERE id_user='" +txtkode.getText()+ "'";
+                    + "WHERE id_user='" + txtkode.getText() + "'";
             Connection conn = (Connection) Config.configDB();
             PreparedStatement pstm = conn.prepareCall(sqlupdate);
             pstm.executeUpdate();
@@ -198,8 +195,8 @@ public class UserPage extends javax.swing.JPanel {
         ClearForm();
         ButtonEnabled();
     }
-    
-    private void SearchQuery(){
+
+    private void SearchQuery() {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("No.");
         model.addColumn("UserId.");
@@ -225,7 +222,7 @@ public class UserPage extends javax.swing.JPanel {
                 model.addRow(new Object[]{no++, res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6)
                 });
             }
-            
+
             TableUser.setModel(model);
         } catch (SQLException e) {
             System.out.println("Error : " + e.getMessage());
@@ -364,7 +361,7 @@ public class UserPage extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(TableUser);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 630, 1110, 310));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 630, 1110, 320));
 
         BCreate.setBackground(new java.awt.Color(71, 71, 71));
         BCreate.setText("CREATE");
@@ -407,7 +404,7 @@ public class UserPage extends javax.swing.JPanel {
         add(BCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 450, 240, 60));
 
         txtrole.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        txtrole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User", " " }));
+        txtrole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
         txtrole.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtroleActionPerformed(evt);
@@ -514,31 +511,31 @@ public class UserPage extends javax.swing.JPanel {
     private void TableUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableUserMouseClicked
         // TODO add your handling code here:
         int baris = TableUser.rowAtPoint(evt.getPoint());
-        
+
         String kodeUser = TableUser.getValueAt(baris, 1).toString();
         txtkode.setText(kodeUser);
-        
+
         String nameUser = TableUser.getValueAt(baris, 2).toString();
         txtname.setText(nameUser);
-        
+
         String emailUser = TableUser.getValueAt(baris, 3).toString();
         txtemail.setText(emailUser);
-        
+
         String passwordUser = TableUser.getValueAt(baris, 4).toString();
         txtpassword.setText(passwordUser);
-        
+
         String teleponUser = TableUser.getValueAt(baris, 5).toString();
         txttelepon.setText(teleponUser);
-        
+
         String roleUser = TableUser.getValueAt(baris, 6).toString();
         txtrole.setSelectedItem(roleUser);
-        
+
         BCreate.setEnabled(false);
     }//GEN-LAST:event_TableUserMouseClicked
 
     private void txtsearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtsearchKeyReleased
         // TODO add your handling code here:
-         SearchQuery();
+        SearchQuery();
     }//GEN-LAST:event_txtsearchKeyReleased
 
 

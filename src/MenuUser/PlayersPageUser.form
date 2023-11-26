@@ -67,11 +67,13 @@
           <Font name="Verdana" size="18" style="0"/>
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Filter Kategori"/>
-            <StringItem index="1" value="Match News"/>
-            <StringItem index="2" value="Player News"/>
-            <StringItem index="3" value="Schedule Match"/>
+          <StringArray count="6">
+            <StringItem index="0" value="Filter Position Player"/>
+            <StringItem index="1" value="GoalKeeper"/>
+            <StringItem index="2" value="Defenders"/>
+            <StringItem index="3" value="Midfielders"/>
+            <StringItem index="4" value="Wingers"/>
+            <StringItem index="5" value="Forwards"/>
           </StringArray>
         </Property>
       </Properties>
@@ -140,6 +142,14 @@
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
+                <EtchetBorder>
+                  <Color PropertyName="highlight" blue="ff" green="ff" id="white" palette="1" red="ff" type="palette"/>
+                  <Color PropertyName="shadow" blue="ff" green="ff" id="white" palette="1" red="ff" type="palette"/>
+                </EtchetBorder>
+              </Border>
             </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[1252, 720]"/>

@@ -13,28 +13,31 @@ import javax.swing.ImageIcon;
  */
 public class CardNews extends javax.swing.JPanel {
 
-    /**s
+    /**
+     * s
      * Creates new form CardPlayer
      */
-    public CardNews(String kodeNews, String judulNews, String deskripsiNews, String kategoriNews,String fileImage) {
+    public CardNews(String kodeNews, String judulNews, String deskripsiNews, String kategoriNews, String fileImage) {
         initComponents();
         LabelIdNews.setText(kodeNews);
         LabelImage1.setText(fileImage);
         LblJudul.setText(judulNews);
         LblDeskripsi.setText(deskripsiNews);
         Lblkategori.setText(kategoriNews);
-        
+
         Line.setVisible(false);
         LoadDataCard();
+
+        LabelImage1.setVisible(false);
     }
-    
-    private void LoadDataCard(){
+
+    private void LoadDataCard() {
         String ImageNews = LabelImage1.getText().toString();
-        
+
         ImageIcon imageIcon = new ImageIcon(ImageNews);
-        
-        int labelWidth = 518;
-                int labelHeight = 197;
+
+        int labelWidth = 413;
+        int labelHeight = 185;
 
         int imageWidth = imageIcon.getIconWidth();
         int imageHeight = imageIcon.getIconHeight();
@@ -46,7 +49,7 @@ public class CardNews extends javax.swing.JPanel {
         Image ScaleImage = imageIcon.getImage().getScaledInstance((int) (scale * imageWidth), (int) (scale * imageHeight), Image.SCALE_SMOOTH);
 
         ImageBerita.setIcon(new ImageIcon(ScaleImage));
-        
+
         LblDeskripsi.setLineWrap(true);
         LblDeskripsi.setWrapStyleWord(true); // Memaksa pemisahan kata hanya terjadi pada batas kata
         LblDeskripsi.setEditable(false);

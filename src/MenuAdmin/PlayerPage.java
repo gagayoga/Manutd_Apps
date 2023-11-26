@@ -46,7 +46,7 @@ public class PlayerPage extends javax.swing.JPanel {
         BDelete.setText("DELETE");
         BCancel.setText("CLEAR");
     }
-      
+
     private void LockInputan() {
         txtkode.setEnabled(false);
         txtfirst.setEnabled(false);
@@ -132,8 +132,8 @@ public class PlayerPage extends javax.swing.JPanel {
                 break;
         }
     }
-    
-    private void SearchQuery(){
+
+    private void SearchQuery() {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("No.");
         model.addColumn("Player Id.");
@@ -162,7 +162,7 @@ public class PlayerPage extends javax.swing.JPanel {
                     res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8)
                 });
             }
-            
+
             TablePlayer.setModel(model);
         } catch (SQLException e) {
             System.out.println("Error : " + e.getMessage());
@@ -170,31 +170,31 @@ public class PlayerPage extends javax.swing.JPanel {
     }
 
     private void KodePlayer() {
-        try{
+        try {
             String sql = "SELECT * FROM player ORDER BY id_player DESC";
             Connection conn = (Connection) Config.configDB();
             Statement stm = conn.createStatement();
             ResultSet res = stm.executeQuery(sql);
-            
-            if (res.next()){
+
+            if (res.next()) {
                 String NoPlayer = res.getString("id_player").substring(3);
-                String IdPlayer = "" + (Integer.parseInt(NoPlayer)+1);
+                String IdPlayer = "" + (Integer.parseInt(NoPlayer) + 1);
                 String Zero = "";
-                
-                if(IdPlayer.length()==1){
+
+                if (IdPlayer.length() == 1) {
                     Zero = "000";
-                }else if (IdPlayer.length()==2){
+                } else if (IdPlayer.length() == 2) {
                     Zero = "00";
-                }else if (IdPlayer.length()==3){
+                } else if (IdPlayer.length() == 3) {
                     Zero = "0";
-                }else if (IdPlayer.length()==4){
+                } else if (IdPlayer.length() == 4) {
                     Zero = "";
                 }
                 txtkode.setText("MUN" + Zero + IdPlayer);
-            }else{
+            } else {
                 txtkode.setText("MUN0001");
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
@@ -368,6 +368,7 @@ public class PlayerPage extends javax.swing.JPanel {
         TablePlayer = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setPreferredSize(new java.awt.Dimension(1110, 986));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jTabbedPane1.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
@@ -439,6 +440,7 @@ public class PlayerPage extends javax.swing.JPanel {
         jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 140, -1));
 
         txtkode.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        txtkode.setEnabled(false);
         txtkode.setMargin(new java.awt.Insets(2, 10, 2, 10));
         jPanel2.add(txtkode, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 320, 50));
 
@@ -510,6 +512,7 @@ public class PlayerPage extends javax.swing.JPanel {
         jLabel12.setText("Last Name");
         jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 140, -1));
 
+        TablePlayer.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         TablePlayer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -646,7 +649,7 @@ public class PlayerPage extends javax.swing.JPanel {
             Lblimage.setText(path);
 
             try {
-                
+
                 String ImagePath = Lblimage.getText().toString();
                 ImageIcon imageIcon = new ImageIcon(ImagePath);
 
@@ -678,16 +681,15 @@ public class PlayerPage extends javax.swing.JPanel {
 
         String namaPlayer = TablePlayer.getValueAt(baris, 2).toString();
         txtfirst.setText(namaPlayer);
-        
+
         String lastname = TablePlayer.getValueAt(baris, 3).toString();
         txtlast.setText(lastname);
 
         String noJersey = TablePlayer.getValueAt(baris, 4).toString();
         txtnoplayer.setText(noJersey);
-        
+
 //        String position = TablePlayer.getValueAt(baris, 5).toString();
 //        txtposition.setSelectedItem(position);
-
         String kategori = TablePlayer.getValueAt(baris, 6).toString();
         txtkategori.setSelectedItem(kategori);
 
@@ -698,7 +700,7 @@ public class PlayerPage extends javax.swing.JPanel {
         Lblimage.setText(pathImage);
 
         ImageIcon imageIcon = new ImageIcon(pathImage);
-        
+
         int labelWidth = 340;
         int labelHeight = 300;
 

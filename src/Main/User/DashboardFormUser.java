@@ -7,8 +7,10 @@ package Main.User;
 import Koneksi.Config;
 import Main.User.Component.CardNews;
 import MenuAdmin.UserPage;
+import MenuUser.AchievementPage;
 import MenuUser.NewsPageUser;
 import MenuUser.PlayersPageUser;
+import MenuUser.StatistikDetailPage;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -135,6 +137,8 @@ public class DashboardFormUser extends javax.swing.JFrame {
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/asset/Logo Mu.png")).getImage());
         setResizable(false);
 
+        ContainerPanel.setBackground(new java.awt.Color(255, 255, 255));
+
         HeaderPanel.setBackground(new java.awt.Color(204, 0, 0));
         HeaderPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -238,6 +242,9 @@ public class DashboardFormUser extends javax.swing.JFrame {
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon Menu/IconStatistik.png"))); // NOI18N
         jLabel19.setToolTipText("Menu Statistik");
         jLabel19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel19MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel19MouseEntered(evt);
             }
@@ -301,6 +308,7 @@ public class DashboardFormUser extends javax.swing.JFrame {
         MainPanel.setBackground(new java.awt.Color(255, 255, 255));
         MainPanel.setLayout(new java.awt.BorderLayout());
 
+        DashboardPanel.setPreferredSize(new java.awt.Dimension(1257, 910));
         DashboardPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         PanelImage.setBackground(new java.awt.Color(255, 255, 255));
@@ -363,6 +371,11 @@ public class DashboardFormUser extends javax.swing.JFrame {
         rSMaterialButtonRectangle2.setForeground(new java.awt.Color(204, 0, 0));
         rSMaterialButtonRectangle2.setText("REGISTER NOW");
         rSMaterialButtonRectangle2.setFont(new java.awt.Font("Roboto Medium", 1, 18)); // NOI18N
+        rSMaterialButtonRectangle2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rSMaterialButtonRectangle2ActionPerformed(evt);
+            }
+        });
         jPanel1.add(rSMaterialButtonRectangle2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 10, 240, 60));
 
         jLabel4.setFont(new java.awt.Font("Verdana", 0, 19)); // NOI18N
@@ -508,6 +521,30 @@ public class DashboardFormUser extends javax.swing.JFrame {
         MainPanel.revalidate();
     }//GEN-LAST:event_rSMaterialButtonRectangle1ActionPerformed
 
+    private void jLabel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel19MouseClicked
+        // TODO add your handling code here:
+        MainPanel.removeAll();
+        MainPanel.repaint();
+        MainPanel.revalidate();
+
+        StatistikDetailPage panelNews = new StatistikDetailPage();
+        MainPanel.add(panelNews);
+        MainPanel.repaint();
+        MainPanel.revalidate();
+    }//GEN-LAST:event_jLabel19MouseClicked
+
+    private void rSMaterialButtonRectangle2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonRectangle2ActionPerformed
+        // TODO add your handling code here:
+        MainPanel.removeAll();
+        MainPanel.repaint();
+        MainPanel.revalidate();
+
+        AchievementPage panelNews = new AchievementPage();
+        MainPanel.add(panelNews);
+        MainPanel.repaint();
+        MainPanel.revalidate();
+    }//GEN-LAST:event_rSMaterialButtonRectangle2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -534,6 +571,7 @@ public class DashboardFormUser extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(DashboardFormUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
 
 
         /* Create and display the form */

@@ -11,6 +11,7 @@ import Model.Player;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,6 +23,7 @@ import javax.swing.DefaultComboBoxModel;
  * @author Asus
  */
 public class PlayersPageUser extends javax.swing.JPanel {
+
     public static int PAGE_AXIS = 4;
 
     /**
@@ -29,53 +31,153 @@ public class PlayersPageUser extends javax.swing.JPanel {
      */
     public PlayersPageUser() {
         initComponents();
-        
+
         LoadDataCard();
         ShowNegara();
     }
-    
-    private void ShowNegara(){
-        String negara;
-        DefaultComboBoxModel<String> negaraModel = new DefaultComboBoxModel<>();
 
-        txtnegara.setModel(negaraModel);
-        
-         try {
-            String sql = "SELECT negara AS negara_pemain FROM player GROUP BY negara";
-            Connection conn = (Connection) Config.configDB();
-            Statement stm = conn.createStatement();
-            ResultSet res = stm.executeQuery(sql);
-            
-            while(res.next()){
-               negara  = res.getString("negara_pemain");
-               negaraModel.addElement(negara);
-            }
-            
-            
-        } catch (SQLException e) {
-            System.out.println("Error : " + e.getMessage());
-        }
-    }
-
-    private void LoadDataCard(){
+    private void FilterNegara() {
         PanelCard.setLayout(new GridLayout(0, 4, 5, 5)); // 0 rows, 4 columns, dengan jarak 10 pixel horizontal dan vertical
         PanelCard.setAutoscrolls(true);
         String idplayer, firstname, lastname, position, number, image;
         PanelCard.removeAll();
-         try {
-            String sql = "SELECT * FROM player ORDER BY id_player";
+        try {
+            String negaraplayer = txtnegara.getSelectedItem().toString().trim();
+            String kategoriplayer = txtselectkategori.getSelectedItem().toString().trim();
+            if (kategoriplayer.equals("Filter Position Player")){
+                LoadDataCard();
+            }else{
+            String sql = "SELECT * FROM player WHERE negara LIKE ? AND kategori_position LIKE ?";
             Connection conn = (Connection) Config.configDB();
-            Statement stm = conn.createStatement();
-            ResultSet res = stm.executeQuery(sql);
-            
-            while(res.next()){
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setString(1, "%" + negaraplayer + "%");
+            pstm.setString(2, "%" + kategoriplayer + "%");
+            ResultSet res = pstm.executeQuery();
+
+            if(res.next()){
+                do{
                 idplayer = res.getString("id_player");
                 firstname = res.getString("first_name");
                 lastname = res.getString("last_name");
                 position = res.getString("position");
                 number = res.getString("no_punggung");
                 image = res.getString("image");
-                
+
+                CardPlayers cardnews = new CardPlayers(idplayer, firstname, lastname, position, number, image);
+                PanelCard.add(cardnews);
+                cardnews.setPreferredSize(new Dimension(310, 434));
+                }while(res.next());
+            }else{
+                idplayer = ("Not Found");
+                firstname = ("Not Found");
+                lastname = ("Not Found");
+                position = ("Not Found");
+                number = ("0");
+                image = ("C:\\Users\\Asus\\Downloads\\Upload Image\\Not Found.png");
+
+                CardPlayers cardnews = new CardPlayers(idplayer, firstname, lastname, position, number, image);
+                PanelCard.add(cardnews);
+                cardnews.setPreferredSize(new Dimension(310, 434));
+            }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error : " + e.getMessage());
+        }
+        PanelCard.repaint();
+        PanelCard.revalidate();
+    }
+
+    private void FilterPlayer() {
+        PanelCard.setLayout(new GridLayout(0, 4, 5, 5)); // 0 rows, 4 columns, dengan jarak 10 pixel horizontal dan vertical
+        PanelCard.setAutoscrolls(true);
+        String idplayer, firstname, lastname, position, number, image;
+        PanelCard.removeAll();
+        try {
+            String kategoriplayer = txtselectkategori.getSelectedItem().toString().trim();
+            if (kategoriplayer.equals("Filter Position Player")){
+                LoadDataCard();
+            }else{
+            String sql = "SELECT * FROM player WHERE kategori_position LIKE ?";
+            Connection conn = (Connection) Config.configDB();
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setString(1, "%" + kategoriplayer + "%");
+            ResultSet res = pstm.executeQuery();
+
+            if(res.next()){
+                do{
+                idplayer = res.getString("id_player");
+                firstname = res.getString("first_name");
+                lastname = res.getString("last_name");
+                position = res.getString("position");
+                number = res.getString("no_punggung");
+                image = res.getString("image");
+
+                CardPlayers cardnews = new CardPlayers(idplayer, firstname, lastname, position, number, image);
+                PanelCard.add(cardnews);
+                cardnews.setPreferredSize(new Dimension(310, 434));
+                }while(res.next());
+            }else{
+                idplayer = ("Not Found");
+                firstname = ("Not Found");
+                lastname = ("Not Found");
+                position = ("Not Found");
+                number = ("0");
+                image = ("C:\\Users\\Asus\\Downloads\\Upload Image\\Not Found.png");
+
+                CardPlayers cardnews = new CardPlayers(idplayer, firstname, lastname, position, number, image);
+                PanelCard.add(cardnews);
+                cardnews.setPreferredSize(new Dimension(310, 434));
+            }
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Error : " + e.getMessage());
+        }
+        PanelCard.repaint();
+        PanelCard.revalidate();
+    }
+
+    private void ShowNegara() {
+        String negara;
+        DefaultComboBoxModel<String> negaraModel = new DefaultComboBoxModel<>();
+
+        txtnegara.setModel(negaraModel);
+
+        try {
+            String sql = "SELECT negara AS negara_pemain FROM player GROUP BY negara";
+            Connection conn = (Connection) Config.configDB();
+            Statement stm = conn.createStatement();
+            ResultSet res = stm.executeQuery(sql);
+
+            while (res.next()) {
+                negara = res.getString("negara_pemain");
+                negaraModel.addElement(negara);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error : " + e.getMessage());
+        }
+    }
+
+    private void LoadDataCard() {
+        PanelCard.setLayout(new GridLayout(0, 4, 5, 5)); // 0 rows, 4 columns, dengan jarak 10 pixel horizontal dan vertical
+        PanelCard.setAutoscrolls(true);
+        String idplayer, firstname, lastname, position, number, image;
+        PanelCard.removeAll();
+        try {
+            String sql = "SELECT * FROM player ORDER BY id_player";
+            Connection conn = (Connection) Config.configDB();
+            Statement stm = conn.createStatement();
+            ResultSet res = stm.executeQuery(sql);
+
+            while (res.next()) {
+                idplayer = res.getString("id_player");
+                firstname = res.getString("first_name");
+                lastname = res.getString("last_name");
+                position = res.getString("position");
+                number = res.getString("no_punggung");
+                image = res.getString("image");
+
                 CardPlayers cardnews = new CardPlayers(idplayer, firstname, lastname, position, number, image);
                 PanelCard.add(cardnews);
                 cardnews.setPreferredSize(new Dimension(310, 434));
@@ -83,9 +185,10 @@ public class PlayersPageUser extends javax.swing.JPanel {
         } catch (SQLException e) {
             System.out.println("Error : " + e.getMessage());
         }
-          PanelCard.repaint();
-          PanelCard.revalidate();
+        PanelCard.repaint();
+        PanelCard.revalidate();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -125,7 +228,7 @@ public class PlayersPageUser extends javax.swing.JPanel {
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 330, 30));
 
         txtselectkategori.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        txtselectkategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Filter Kategori", "Match News", "Player News", "Schedule Match" }));
+        txtselectkategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Filter Position Player", "GoalKeeper", "Defenders", "Midfielders", "Wingers", "Forwards" }));
         txtselectkategori.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 txtselectkategoriItemStateChanged(evt);
@@ -147,6 +250,7 @@ public class PlayersPageUser extends javax.swing.JPanel {
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         PanelCard.setBackground(new java.awt.Color(255, 255, 255));
+        PanelCard.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.white, java.awt.Color.white));
         PanelCard.setMaximumSize(new java.awt.Dimension(1252, 720));
         PanelCard.setMinimumSize(new java.awt.Dimension(1252, 720));
         PanelCard.setLayout(new javax.swing.BoxLayout(PanelCard, javax.swing.BoxLayout.X_AXIS));
@@ -157,11 +261,13 @@ public class PlayersPageUser extends javax.swing.JPanel {
 
     private void txtselectkategoriItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_txtselectkategoriItemStateChanged
         // TODO add your handling code here:
+        FilterPlayer();
 //        FilterKategori();
     }//GEN-LAST:event_txtselectkategoriItemStateChanged
 
     private void txtnegaraItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_txtnegaraItemStateChanged
         // TODO add your handling code here:
+        FilterNegara();
 //        FilterBulan();
     }//GEN-LAST:event_txtnegaraItemStateChanged
 
