@@ -45,8 +45,13 @@ public class LoginForm extends javax.swing.JFrame {
             if (txtemail.getText().equals("") || txtpassword.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "Please input Username or Password",
                         "Login Failed", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                LoginQuerry();
+            } else{
+                if(validateEmail(txtemail.getText())){
+                    LoginQuerry();
+                }else{
+                    JOptionPane.showMessageDialog(this, "Email tidak valid, harus menggunakan @gmail.com",
+                    "Login Failed", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         } else {
             JOptionPane.showMessageDialog(this, "Please input Username or Password",
@@ -113,6 +118,10 @@ public class LoginForm extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.out.print("Eror : " + e.getMessage());
         }
+    }
+    
+    private boolean validateEmail(String email){
+        return email.endsWith("@gmail.com");
     }
 
     /**

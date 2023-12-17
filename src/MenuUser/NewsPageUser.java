@@ -114,13 +114,24 @@ public class NewsPageUser extends javax.swing.JPanel {
             pstm.setString(5, "%" + valueSearch + "%");
             ResultSet res = pstm.executeQuery();
 
-            while (res.next()) {
+            if (res.next()){
+                do{
                 idNews = res.getString("id_berita");
                 judulNews = res.getString("judul_berita");
                 deskripsiNews = res.getString("deskripsi");
                 kategoriNews = res.getString("kategori_berita");
                 imageNews = res.getString("image");
 
+                CardNews cardnews = new CardNews(idNews, judulNews, deskripsiNews, kategoriNews, imageNews);
+                PanelCard.add(cardnews);
+                cardnews.setPreferredSize(new Dimension(414, 395));
+                }while (res.next());
+            }else{
+                idNews = ("000");
+                judulNews = ("News Not Found");
+                deskripsiNews = ("News Not Found");
+                kategoriNews = ("News Not Found");
+                imageNews = ("D:\\My File\\Sekolah\\Tugas Semester 1 XII RPL B\\PBO\\Tugas Ke6\\Tugas Kelompok_ManUtdApps\\ManUtd_Apps\\src\\asset\\notfound.png");
                 CardNews cardnews = new CardNews(idNews, judulNews, deskripsiNews, kategoriNews, imageNews);
                 PanelCard.add(cardnews);
                 cardnews.setPreferredSize(new Dimension(414, 395));
@@ -142,19 +153,15 @@ public class NewsPageUser extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         txtsearch = new javax.swing.JTextField();
         txtselectkategori = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         PanelCard = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel2.setFont(new java.awt.Font("Verdana", 1, 25)); // NOI18N
-        jLabel2.setText("NEWS MANCHESTER UNITED");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 410, 30));
 
         jPanel5.setBackground(new java.awt.Color(240, 0, 0));
 
@@ -196,6 +203,10 @@ public class NewsPageUser extends javax.swing.JPanel {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 1260, 640));
 
+        jLabel3.setFont(new java.awt.Font("Verdana", 1, 25)); // NOI18N
+        jLabel3.setText("NEWS MANCHESTER UNITED");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 410, 30));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -221,7 +232,7 @@ public class NewsPageUser extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelCard;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;

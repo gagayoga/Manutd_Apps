@@ -6,11 +6,13 @@ package Main.User;
 
 import Koneksi.Config;
 import Main.User.Component.CardNews;
+import MainAdmin.LoginForm;
 import MenuAdmin.UserPage;
 import MenuUser.AchievementPage;
 import MenuUser.NewsPageUser;
 import MenuUser.PlayersPageUser;
 import MenuUser.StatistikDetailPage;
+import Session.SessionLogin;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -24,6 +26,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 /**
@@ -205,6 +208,9 @@ public class DashboardFormUser extends javax.swing.JFrame {
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/asset/Dashboard/Icon Menu/IconLogout.png"))); // NOI18N
         jLabel5.setToolTipText("Menu Log Out");
         jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel5MouseEntered(evt);
             }
@@ -544,6 +550,24 @@ public class DashboardFormUser extends javax.swing.JFrame {
         MainPanel.repaint();
         MainPanel.revalidate();
     }//GEN-LAST:event_rSMaterialButtonRectangle2ActionPerformed
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        // TODO add your handling code here:
+           int selectedOption = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin log out?", "Konfirmasi Logout", JOptionPane.YES_NO_OPTION);
+        if (selectedOption == JOptionPane.YES_OPTION) {
+            SessionLogin.setNameUser(null);
+            SessionLogin.setEmailUser(null);
+            SessionLogin.setPasswordUser(null);
+            SessionLogin.setTeleponUser(null);
+            SessionLogin.setRoleUser(null);
+
+            LoginForm loginForm = new LoginForm();
+            loginForm.setVisible(true);
+            dispose();
+        } else {
+
+        }
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     /**
      * @param args the command line arguments
